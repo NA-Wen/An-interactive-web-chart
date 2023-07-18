@@ -1,0 +1,14 @@
+/*图表绘制区域*/
+.chart-canvas-block{
+    /*居中图表绘制区域*/
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+
+/*图表画布canvas
+**暂时加这个边框是为了方便找位置大小，确定相对位置*/
+#chart-canvas{
+    border: 1px solid #000;
+} 

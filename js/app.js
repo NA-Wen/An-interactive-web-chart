@@ -109,7 +109,7 @@ class Chart {
         /*坐标轴（此处指canvas坐标轴）变换为原点在左下角，y轴竖直向上
         **画图更加方便直观
         **文字、图像（不过chart内部应该不用画图）会上下颠倒
-        **此时可考虑用drawText(context, text, x, y)函数，定义见上
+        **此时可考虑用drawText(context, text, x, y)函数，定义见下
         */
         /*以下提供逆变换作参考：
         context.scale(1, -1);

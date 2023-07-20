@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图表</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <!--图表绘制区域-->
+    <div class="chart-canvas-block">
+        <!--这里的width和height不能放到css里面，会失真-->
+        <!--溢出canvas画布的图形似乎不会显示-->
+        <!-- 
+        为方便管理，此处改进了画布管理；
+        canvas：原始画布，包含坐标轴以及坐标轴标签
+        linecanvas: 折线图线画布，包含折线图的折现元素
+        dotcanvas：折线图点画布，包含折线图的点元素以及百分比标签
+        barcanvas：柱状图画布，包含柱状图矩形以及数量标签
+        -->
+        <canvas id="chart-canvas" width="600px" height="400px"></canvas>
+        <canvas id="bar-canvas" width="600px" height="400px" style="position: absolute; top: 10; left: 0;"></canvas>
+        <canvas id="line-canvas" width="600px" height="400px" style="position: absolute; top: 10; left: 0;"></canvas>
+        <canvas id="dot-canvas" width="600px" height="400px" style="position: absolute; top: 10; left: 0;"></canvas>
+
+    </div>
+    <script src="js/app.js"></script>
+    <div>
+        <!--图表配置区域-->
+        <div>
+            <!--柱状图配置-->
+            <p>
+                --柱状图配置--
+            </p>
+            <div style="display: flex;">
+                <div>
+                    <label style="font-size: 12px;">柱状图颜色</label>
+                    <input type="color" id="colorPicker">
+                    <script>
+                        var colorPicker = document.getElementById('colorPicker');
+                        colorPicker.addEventListener("change", watchColorPicker, false);
+                    </script>
+                </div>
+                <div style="position: relative;left: 30px;">
+                    <label style="font-size: 12px;">柱状图填充方案</label>
+                    <select id="mySelect" onchange=" getSelectedValue()">
+                    <option vaule="option0">无渐变</option>
+                    <option value="option1">渐变类型1</option>
+                    <option value="option2">渐变类型2</option>
+                    <option value="option3">渐变类型3</option>
+                    <option value="option4">渐变类型4</option>
+                  </select>
+                </div>
+                <div style="position: relative;left: 90px;">
+                    <input type="checkbox" id="barcheck" name="scales" checked>
+                    <label for="scales">柱状图显示</label>
+                </div>
+
+                <script>
+                    var barcheck = document.getElementById('barcheck');
+                    barcheck.addEventListener("change", watchbarcheck, false);
+                </script>
+            </div>
+        </div>
+
+        <div>
+            <!--折线图配置-->
+            <p>--折线图配置--</p>
+            <div style="display:flex;flex-direction:column ;">
+
+                <div style="display: flex;">
+                    <div>
+                        <label style="font-size: 12px;">曲线颜色</label>
+                        <input type="color" id="colorPicker2">
+                        <script>
+                            var colorPicker_2 = document.getElementById('colorPicker2');
+                            colorPicker_2.addEventListener("change", watchlineColorPicker, false);
+                        </script>
+                    </div>
+
+                    <div style="position: relative;left:30px">
+                        <label style="font-size: 12px;">曲线粗细</label>
+                        <input type="range" id="slider" min="1" max="100" value="50">
+                        <script>
+                            var slider = document.getElementById('slider');
+                            slider.addEventListener("change", watchsliderchange, false);
+                        </script>
+                    </div>
+                    <div style="position: relative;left:50px">
+                        <label style="font-size: 12px;">曲线线型</label>
+                        <select id="mylineSelect" onchange=" getlineSelectedValue()">
+                    <option vaule="option0">实线</option>
+                    <option value="option1">虚线类型1</option>
+                    <option value="option2">虚线类型2</option>
+                    <option value="option3">虚线类型3</option>
+                    <option value="option4">虚线类型4</option>
+                  </select>
+                    </div>
+                </div>
+                <div style="display: flex;position:relative;top: 20px;">
+                    <div style="position: relative;">
+                        <label style="font-size: 12px;">标记点颜色</label>
+                        <input type="color" id="colorPicker3">
+                        <script>
+                            var colorPicker_3 = document.getElementById('colorPicker3');
+                            colorPicker_3.addEventListener("change", watchdotColorPicker, false);
+                        </script>
+                    </div>
+                    <div style="position: relative;left:30px">
+                        <label style="font-size: 12px;">标记点大小</label>
+                        <input type="range" id="slider2" min="1" max="100" value="50">
+                        <script>
+                            var slider_2 = document.getElementById('slider2');
+                            slider_2.addEventListener("change", watchdotsliderchange, false);
+                        </script>
+                    </div>
+
+                    <div style="position: relative;left:50px">
+                        <label style="font-size: 12px;">标记点形状</label>
+                        <select id="mydotSelect" onchange=" getdotSelectedValue()">
+                    <option vaule="option0">圆形</option>
+                    <option value="option1">三角形</option>
+                    <option value="option2">正方形</option>
+                  </select>
+                    </div>
+                    <div style="position: relative;left:70px">
+                        <input type="checkbox" id="linecheck" name="scales" checked>
+                        <label for="scales">折线图显示</label>
+                        <script>
+                            var linecheck = document.getElementById('linecheck');
+                            linecheck.addEventListener("change", watchlinecheck, false);
+                        </script>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -345,6 +345,8 @@ class Chart {
         this.dotcolor = 'black';
         this.dotpattern = 0;
         this.dotwidth = 50;
+
+        this.fillflag = 0;
     }
 
     //绘制图表，使一切画布内容重画
@@ -440,6 +442,8 @@ function watchColorPicker(event) {
     console.log(colorPicker.value);
     chart.barcolor = colorPicker.value;
     updateBarGraph(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, colorPicker.value, chart.barflag);
+    updateBarShape(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, chart.barcolor, chart.fillflag);
+
 }
 //折线图线颜色变化监听
 function watchlineColorPicker(event) {
@@ -473,6 +477,7 @@ function watchbarcheck(event) {
     console.log(barcheck.checked);
     if (barcheck.checked) {
         updateBarGraph(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, chart.barcolor, chart.barflag);
+        updateBarShape(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, chart.barcolor, chart.fillflag);
     } else {
         chart.barcontext.clearRect(0, 0, chart.barcanvas.width, chart.barcanvas.height);
     }
@@ -488,7 +493,7 @@ function watchlinecheck(event) {
         chart.dotcontext.clearRect(0, 0, chart.linecanvas.width, chart.linecanvas.height);
     }
 }
-//柱状图填充方案监听
+//柱状图填充颜色方案监听
 function getSelectedValue() {
     var selectElement = document.getElementById("mySelect");
     console.log(selectElement);
@@ -509,7 +514,30 @@ function getSelectedValue() {
     }
     chart.barcolor = barcolor;
     chart.barflag = flag;
-    updateBarGraph(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, barcolor, flag);
+    updateBarShape(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, chart.barcolor, chart.fillflag);
+    //updateBarGraph(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, barcolor, flag);
+    return barcolor;
+}
+
+//柱状图填充形状方案监听
+function getshapeSelectedValue() {
+    var selectElement = document.getElementById("myshapeSelect");
+    console.log(selectElement);
+    var selectedValue = selectElement.value;
+    console.log(selectedValue);
+    var barcolor = colorPicker.value;
+    var flag = 0;
+    if (selectedValue == "option0") {
+        flag = 0;
+    } else if (selectedValue == "option1") {
+        flag = 1;
+    } else if (selectedValue == "option2") {
+        flag = 2;
+    } else if (selectedValue == "option3") {
+        flag = 3;
+    }
+    chart.barcolor = barcolor;
+    updateBarShape(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, chart.barcolor, flag);
     return barcolor;
 }
 //折线图点形状变化监听
@@ -526,6 +554,7 @@ function getdotSelectedValue() {
     } else if (selectedValue == "option2") {
         pattern = 2;
     }
+
     updateBrokenDotGraph(chart.canvas, chart.context, chart.dotcanvas, chart.dotcontext, 0, pattern, 0);
 }
 //折线图线型变化监听
@@ -549,6 +578,67 @@ function getlineSelectedValue() {
     }
     chart.linepattern = pattern;
     updateBrokenLineGraph(chart.canvas, chart.context, chart.linecanvas, chart.linecontext, chart.linecolor, pattern, chart.linewidth);
+}
+
+function updateBarShape(canvas, context, barcanvas, barcontext, color, flag) {
+    console.log(barcheck.checked);
+    if (!barcheck.checked) { barcontext.clearRect(0, 0, barcanvas.width, barcanvas.height); return; }
+    let coordinates = [];
+    for (let i = 0; i < Statistics.count; i++) {
+        coordinates.push(chart.getCoordinate(canvas, Statistics.x_data[i], Statistics.y_data[i]));
+    }
+    chart.fillflag = flag;
+    if (flag == 0) {
+        barcontext.clearRect(0, 0, barcanvas.width, barcanvas.height);
+        updateBarGraph(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, chart.barcolor, chart.barflag);
+    } else if (flag == 1) {
+        barcontext.clearRect(0, 0, barcanvas.width, barcanvas.height);
+        updateBarGraph(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, chart.barcolor, chart.barflag);
+
+        for (let i = 0; i < Statistics.count; i++) {
+            for (let j = 0; j <= coordinates[i].y_pos - 5;) {
+                barcontext.beginPath();
+                barcontext.moveTo(chart.x_origin + coordinates[i].x_pos - chart.bar_half_width, chart.y_origin + j);
+                j = j + 5;
+                barcontext.lineTo(chart.x_origin + coordinates[i].x_pos + chart.bar_half_width, chart.y_origin + j);
+                barcontext.strokeStyle = "white"; //chage color according to ...
+                barcontext.stroke();
+            }
+        }
+    } else if (flag == 2) {
+        barcontext.clearRect(0, 0, barcanvas.width, barcanvas.height);
+        updateBarGraph(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, chart.barcolor, chart.barflag);
+        for (let i = 0; i < Statistics.count; i++) {
+            for (let j = 0; j <= coordinates[i].y_pos - 5;) {
+                barcontext.beginPath();
+                barcontext.moveTo(chart.x_origin + coordinates[i].x_pos + chart.bar_half_width, chart.y_origin + j);
+                j = j + 5;
+                barcontext.lineTo(chart.x_origin + coordinates[i].x_pos - chart.bar_half_width, chart.y_origin + j);
+                barcontext.strokeStyle = "white"; //chage color according to ...
+                barcontext.stroke();
+            }
+        }
+    } else if (flag == 3) {
+        barcontext.clearRect(0, 0, barcanvas.width, barcanvas.height);
+        updateBarGraph(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, chart.barcolor, chart.barflag);
+        var filldot_radius = 2 * chart.bar_half_width / 10;
+        for (let i = 0; i < Statistics.count; i++) {
+            for (let j = filldot_radius; j <= coordinates[i].y_pos - 1 * filldot_radius;) {
+                for (let k = filldot_radius; k <= 2 * chart.bar_half_width - filldot_radius;) {
+                    barcontext.beginPath();
+                    var x = chart.x_origin + coordinates[i].x_pos - chart.bar_half_width + k;
+                    var y = chart.y_origin + j;
+                    ///console.log("xy", x, y)
+                    barcontext.arc(x, y, filldot_radius, 0, 2 * Math.PI, true);
+                    barcontext.closePath();
+                    barcontext.fillStyle = "white"; //todo color
+                    barcontext.fill();
+                    k = k + 2 * filldot_radius + 2;
+                }
+                j = j + 2 * filldot_radius + 2;
+            }
+        }
+    }
 }
 
 //柱状图重绘更新
@@ -588,6 +678,8 @@ function updateBarGraph(canvas, context, barcanvas, barcontext, color, flag) {
             barcontext.fillStyle = gradient;
             barcontext.fillRect(chart.x_origin + coordinates[i].x_pos - chart.bar_half_width, chart.y_origin, 2 * chart.bar_half_width, coordinates[i].y_pos);
             console.log(chart.x_origin + coordinates[i].x_pos - chart.bar_half_width, chart.y_origin, 2 * chart.bar_half_width, coordinates[i].y_pos);
+            console.log(coordinates[i].y_pos);
+
             barcontext.fillStyle = 'black';
             chart.drawText(barcontext, Statistics.y_data[i].toString(), chart.x_origin + coordinates[i].x_pos, chart.y_origin + coordinates[i].y_pos + 8);
 

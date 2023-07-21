@@ -40,7 +40,7 @@
                     <input type="color" id="colorPicker" onchange="watchColorPicker()">
                 </div>
                 <div style="position: relative;left: 30px;">
-                    <label style="font-size: 12px;">柱状图填充方案</label>
+                    <label style="font-size: 12px;">柱状图填充颜色方案</label>
                     <select id="mySelect" onchange=" getSelectedValue()">
                         <option vaule="option0">无渐变</option>
                         <option value="option1">渐变类型1</option>
@@ -49,6 +49,16 @@
                         <option value="option4">渐变类型4</option>
                     </select>
                 </div>
+                <div style="position: relative;left: 30px;">
+                    <label style="font-size: 12px;">柱状图填充形状方案</label>
+                    <select id="myshapeSelect" onchange=" getshapeSelectedValue()">
+                    <option vaule="option0">无填充形状</option>
+                    <option value="option1">↗斜线填充</option>
+                    <option value="option2">↖斜线填充</option>
+                    <option value="option3">⚪填充</option>
+                  </select>
+                </div>
+
                 <div style="position: relative;left: 90px;">
                     <input type="checkbox" id="barcheck" name="scales" checked onchange="watchbarcheck()">
                     <label for="scales">柱状图显示</label>

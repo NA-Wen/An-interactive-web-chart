@@ -189,6 +189,8 @@ class Chart {
      * y轴起始值：1
      * y轴终止值：6（若因变量最大值不超过6），10（若因变量最大值超过6）
      * y轴刻度跨度：1
+     * 还可以修改：
+     * 条宽度等
      */
     resetScale() {
         this.x_scale_begin = Statistics._min_x;

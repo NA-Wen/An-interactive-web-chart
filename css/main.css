@@ -1,14 +1,87 @@
 /*图表绘制区域*/
-.chart-canvas-block{
+.chart-canvas-block {
     /*居中图表绘制区域*/
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
 }
 
 /*图表画布canvas
 **暂时加这个边框是为了方便找位置大小，确定相对位置*/
-#chart-canvas{
+#chart-canvas {
     border: 1px solid #000;
-} 
+}
+
+/*表格容器*/
+.table-container {
+    position: absolute;
+    left: 78%;
+    top: 30%;
+    height: 300px;
+    overflow: auto;
+}
+
+/*表格*/
+#data-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#data-table th,
+#data-table td {
+    width: 100px;
+    height: 20px;
+    border: 1px solid black;
+    padding: 7px;
+    text-align: center;
+}
+
+/*表格按钮*/
+.table-tools {
+    position: absolute;
+    left: 79%;
+    top: 20%;
+    width: 200px;
+    display: flex;
+    justify-content: space-between;
+}
+
+/*这两个“按钮”也就看着差不多了...*/
+.file-input-container {
+    position: relative;
+    top: -16px;
+    background: lightblue;
+    border: none;
+    padding: 5px 29px;
+    overflow: hidden;
+    color: darkcyan;
+}
+
+#file-input {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.file-input-container:hover {
+    background: lightcyan;
+    color: darkcyan;
+}
+
+#apply-button {
+    width: 90px;
+    height: 30px;
+    background-color: lightblue;
+    color: darkcyan;
+    border: none;
+    font-size: 15px;
+}
+
+#apply-button:hover {
+    width: 90px;
+    height: 30px;
+    background-color: lightcyan;
+    color: darkcyan;
+    border: none;
+}

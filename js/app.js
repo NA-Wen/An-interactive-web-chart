@@ -28,6 +28,7 @@ const Statistics = {
     },
 
     //获取y元素的和
+    //如果你遇到了问题，那么大概率你的变量数组中存在数字用字符串表示，（正确的是10，数组中是'10'）
     get _sum_y() {
         return this.y_data.reduce(function(a, b) {
             return a + b;
@@ -61,7 +62,7 @@ class Chart {
         y_scale_begin, y_scale_end, y_scale_step, y_scale_font, y_scale_color,
         x_label_string, x_label_font, x_label_color,
         y_label_string_1, y_label_string_2, y_label_font, y_label_color,
-        bar_half_width, barcolor,
+        bar_half_width,
         dot_height_ratio, dot_radius) {
 
         //画布
@@ -105,7 +106,7 @@ class Chart {
 
         //条形统计图
         this.bar_half_width = bar_half_width; //条的半宽度（！）
-        this.barcolor = barcolor; //条的颜色
+        //this.barcolor = barcolor; //条的颜色
 
         //折线统计图
         this.dot_height_ratio = dot_height_ratio; //点高度放大率（点在条上方，标示百分比，则高度增大相同倍数）
@@ -176,6 +177,26 @@ class Chart {
         context.scale(1, -1);
         context.fillText(text, x, -y);
         context.scale(1, -1);
+    }
+
+    //重设坐标刻度值
+    /**
+     * 若希望优化刻度自适应，可考虑优化该函数
+     * 目前刻度策略：
+     * x轴起始值：最小自变量
+     * x轴终止值：最大自变量
+     * x轴刻度跨度：1
+     * y轴起始值：1
+     * y轴终止值：6（若因变量最大值不超过6），10（若因变量最大值超过6）
+     * y轴刻度跨度：1
+     */
+    resetScale() {
+        this.x_scale_begin = Statistics._min_x;
+        this.x_scale_end = Statistics._max_x;
+        this.x_scale_step = 1;
+        this.y_scale_begin = Statistics._min_y;
+        this.y_scale_end = Statistics._max_y <= 6 ? 6 : 10;
+        this.y_scale_step = 1;
     }
 
     //获取数据点对应绘图坐标（此处指canvas坐标，但原点从图表原点开始，准确的canvas坐标需加上图表原点坐标）
@@ -350,6 +371,9 @@ class Chart {
     }
 
     //绘制图表，使一切画布内容重画
+    /*
+     *仅初次绘制时调用，重新绘制时建议使用updateChart(chart)函数（重绘函数不在类内）
+     */
     drawChart() {
         //取得绘图上下文
         let canvas = this.canvas;
@@ -375,6 +399,61 @@ class Chart {
     }
 
 }
+
+//表格类，不实际存储表格，仅提供对页面内表格的操作
+class Table {
+    //构造函数
+    constructor(table_lines_count, table_container_id, table_id) {
+        this.table_lines_count = table_lines_count; //表格行数
+        this.table_container_id = table_container_id; //HTML中表格容器的id
+        this.table_id = table_id; //HTML中表格的id
+    }
+
+    //添加表格行
+    addRow(row_num) {
+        let table = document.getElementById(this.table_id);
+        this.table_lines_count += row_num;
+        for (let i = 0; i < row_num; i++) {
+            let row = table.insertRow(-1);
+            let cell1 = row.insertCell(0);
+            cell1.contentEditable = 'true';
+            cell1.setAttribute('style', 'width: 100px; height: 20px; border: 1px solid black; padding: 8px; text-align: center;');
+            let cell2 = row.insertCell(1);
+            cell2.contentEditable = 'true';
+            cell2.setAttribute('style', 'width: 100px; height: 20px; border: 1px solid black; padding: 8px; text-align: center;');
+        }
+    }
+
+    //向表格添加数据，由于表头占一行，数据的行序号即为row的值，（即从1开始）
+    addData(row, x, y) {
+        let table = document.getElementById(this.table_id);
+        if (this.table_lines_count < row) {
+            this.addRow(row - this.table_lines_count);
+        }
+        let rows = table.getElementsByTagName('tr');
+        rows[row].cells[0].innerText = x;
+        rows[row].cells[1].innerText = y;
+    }
+
+    //清除表格内容
+    clearTable() {
+        let table = document.getElementById(this.table_id);
+        let cells = table.getElementsByTagName("td");
+        for (let i = 0; i < cells.length; i++) {
+            cells[i].innerHTML = "";
+        }
+    }
+
+} //动态化、按钮等相关函数在后面
+
+/**
+ * 变量初始化区域
+ * 当前初始化内容：
+ * Statistics对象
+ * Chart类对象
+ * Table类对象
+ * *****开始*****
+ */
 
 //初始化Statistics对象
 Statistics.count = 4;
@@ -432,14 +511,41 @@ chart.barcolor = 'black';
 chart.dot_height_ratio = 1.3;
 chart.dot_radius = 4;
 
+//实例化表格对象
+var table = new Table;
+
+//初始化表格参数
+table.table_lines_count = 4;
+table.table_container_class = 'table-container';
+table.table_id = 'data-table';
+
+
+/**
+ * 变量初始化区域
+ * *****结束*****
+ */
+
+/**
+ * 函数运行部分
+ * *****开始*****
+ */
+
 //绘制图表
 chart.initContext(chart.canvas_id, chart.linecanvas_id, chart.dotcanvas_id, chart.barcanvas_id);
 chart.drawChart();
 
+//初始化表格
+initDynamicTable();
+
+
+/**
+ * 函数运行部分
+ * *****结束*****
+ */
 
 //柱状图颜色变化监听
 function watchColorPicker(event) {
-    console.log(colorPicker.value);
+    //console.log(colorPicker.value);
     chart.barcolor = colorPicker.value;
     updateBarGraph(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, colorPicker.value, chart.barflag);
     updateBarShape(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, chart.barcolor, chart.fillflag);
@@ -447,14 +553,14 @@ function watchColorPicker(event) {
 }
 //折线图线颜色变化监听
 function watchlineColorPicker(event) {
-    console.log(colorPicker_2.value);
-    var color = colorPicker_2.value;
+    //console.log(colorPicker_2.value);
+    var color = colorPicker2.value;
     chart.linecolor = color;
     updateBrokenLineGraph(chart.canvas, chart.context, chart.linecanvas, chart.linecontext, color, chart.linepattern, chart.linewidth);
 }
 //折线图线宽度变化监听
 function watchsliderchange(event) {
-    console.log(slider.value);
+    //console.log(slider.value);
     var width = slider.value;
     chart.linewidth = width;
 
@@ -462,19 +568,21 @@ function watchsliderchange(event) {
 }
 //折线图点颜色变化监听
 function watchdotColorPicker(event) {
-    console.log(colorPicker_3.value);
-    var color = colorPicker_3.value;
+    //console.log(colorPicker_3.value);
+    var color = colorPicker3.value;
+    chart.dotcolor = color;
     updateBrokenDotGraph(chart.canvas, chart.context, chart.dotcanvas, chart.dotcontext, color, 0, 0);
 }
 //折线图点大小变化监听
 function watchdotsliderchange(event) {
-    console.log(slider_2.value);
-    var width = slider_2.value;
+    //console.log(slider_2.value);
+    var width = slider2.value;
+    chart.dotwidth = width;
     updateBrokenDotGraph(chart.canvas, chart.context, chart.dotcanvas, chart.dotcontext, 0, 0, width);
 }
 //柱状图显示情况监听
 function watchbarcheck(event) {
-    console.log(barcheck.checked);
+    //console.log(barcheck.checked);
     if (barcheck.checked) {
         updateBarGraph(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, chart.barcolor, chart.barflag);
         updateBarShape(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, chart.barcolor, chart.fillflag);
@@ -484,7 +592,7 @@ function watchbarcheck(event) {
 }
 //折线图显示情况监听
 function watchlinecheck(event) {
-    console.log(linecheck.checked);
+    //console.log(linecheck.checked);
     if (linecheck.checked) {
         updateBrokenDotGraph(chart.canvas, chart.context, chart.dotcanvas, chart.dotcontext, chart.dotcolor, chart.dotpattern, chart.dotwidth);
         updateBrokenLineGraph(chart.canvas, chart.context, chart.linecanvas, chart.linecontext, chart.linecolor, chart.linepattern, chart.linewidth);
@@ -496,9 +604,9 @@ function watchlinecheck(event) {
 //柱状图填充颜色方案监听
 function getSelectedValue() {
     var selectElement = document.getElementById("mySelect");
-    console.log(selectElement);
+    //console.log(selectElement);
     var selectedValue = selectElement.value;
-    console.log(selectedValue);
+    //console.log(selectedValue);
     var barcolor = colorPicker.value;
     var flag = 0;
     if (selectedValue == "option1") {
@@ -543,7 +651,7 @@ function getshapeSelectedValue() {
 //折线图点形状变化监听
 function getdotSelectedValue() {
     var selectElement = document.getElementById("mydotSelect");
-    console.log(selectElement);
+    //console.log(selectElement);
     var selectedValue = selectElement.value;
 
     var pattern = 0;
@@ -554,15 +662,15 @@ function getdotSelectedValue() {
     } else if (selectedValue == "option2") {
         pattern = 2;
     }
-
+    chart.dotpattern = pattern;
     updateBrokenDotGraph(chart.canvas, chart.context, chart.dotcanvas, chart.dotcontext, 0, pattern, 0);
 }
 //折线图线型变化监听
 function getlineSelectedValue() {
     var selectElement = document.getElementById("mylineSelect");
-    console.log(selectElement);
+    //console.log(selectElement);
     var selectedValue = selectElement.value;
-    console.log(selectedValue);
+    //console.log(selectedValue);
     var line_width = slider.value;
     var pattern = 0;
     if (selectedValue == "option1") {
@@ -643,7 +751,7 @@ function updateBarShape(canvas, context, barcanvas, barcontext, color, flag) {
 
 //柱状图重绘更新
 function updateBarGraph(canvas, context, barcanvas, barcontext, color, flag) {
-    console.log(barcheck.checked);
+    //console.log(barcheck.checked);
     if (!barcheck.checked) { barcontext.clearRect(0, 0, barcanvas.width, barcanvas.height); return; }
     barcontext.clearRect(0, 0, barcanvas.width, barcanvas.height);
     let coordinates = [];
@@ -726,7 +834,7 @@ function updateBrokenDotGraph(canvas, context, dotcanvas, dotcontext, color, pat
     }
     //绘制数据点及标签
     let sum_y = Statistics._sum_y;
-    console.log(color);
+    //console.log(color);
     dotcontext.clearRect(0, 0, dotcanvas.width, dotcanvas.height);
     if (width != 0) {
         chart.dotwidth = width;
@@ -795,4 +903,75 @@ function updateBrokenDotGraph(canvas, context, dotcanvas, dotcontext, color, pat
         dotcontext.fillStyle = 'black';
         chart.drawText(dotcontext, percent, chart.x_origin + coordinates[i].x_pos, chart.y_origin + chart.dot_height_ratio * coordinates[i].y_pos + 12);
     }
+}
+
+//根据当前Chart类对象chart的变量值，重新绘制整个图表(包括坐标轴)
+//你会赞美这个函数的（）
+function updateChart(chart) {
+    //重绘坐标轴
+    chart.resetScale();
+    chart.clearCanvas(chart.canvas, chart.context);
+    chart.drawAxis(chart.canvas, chart.context);
+    chart.drawScale(chart.canvas, chart.context);
+    chart.drawLabel(chart.canvas, chart.context);
+
+    //更新统计图
+    updateBarGraph(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, chart.barcolor, chart.barflag);
+    updateBrokenLineGraph(chart.canvas, chart.context, chart.linecanvas, chart.linecontext, chart.linecolor, chart.linepattern, chart.linewidth);
+    updateBrokenDotGraph(chart.canvas, chart.context, chart.dotcanvas, chart.dotcontext, chart.dotcolor, chart.dotpattern, chart.dotwidth);
+}
+
+//初始化动态表格
+function initDynamicTable() {
+    let table_container = document.getElementsByClassName(table.table_container_class)[0];
+    let threshold = 20;
+    table.addRow(6);
+    table_container.onmousemove = function() {
+        if (table.table_lines_count > 200) {
+            return;
+        }
+        if (table_container.scrollTop + table_container.clientHeight >= table_container.scrollHeight - threshold) {
+            table.addRow(4);
+        }
+    };
+}
+
+//导入.csv文件至表格
+function importTable(event) {
+    let file = event.target.files[0];
+    let reader = new FileReader();
+    reader.onload = function(e) {
+        table.clearTable();
+        let contents = e.target.result;
+        let rows = contents.split('\n').filter(str => str !== '');
+        for (let i = 0; i < rows.length; i++) {
+            let cells = rows[i].trim().split(',');
+            table.addData(i + 1, cells[0], cells[1]);
+        }
+    };
+    reader.readAsText(file);
+}
+
+//应用表格（表格数据的绘制）
+function applyTable() {
+    let _table = document.getElementById(table.table_id);
+    let rows = _table.getElementsByTagName("tr");
+    let x_data = [];
+    let y_data = [];
+    //从1开始，去除表头
+    for (let i = 1; i < rows.length; i++) {
+        let cells = rows[i].getElementsByTagName("td");
+        let x = cells[0].innerText;
+        let y = cells[1].innerText;
+        if (x === "" || y === "" || isNaN(x) || isNaN(y)) {
+            continue;
+        }
+        x_data.push(parseFloat(x));
+        y_data.push(parseFloat(y));
+    }
+    Statistics.x_data = x_data;
+    Statistics.y_data = y_data;
+    Statistics.count = x_data.length;
+
+    updateChart(chart);
 }

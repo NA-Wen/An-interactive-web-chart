@@ -30,6 +30,33 @@
     <div>
         <!--图表配置区域-->
         <div>
+            <div style="display: flex;">
+                <div>
+                    <p>使用配色方案1:</p>
+                </div>
+                <div style="position: relative;top: 19px;right: -20px;">
+                    <canvas id="colorCard" width="80" height="15"></canvas>
+                </div>
+                <div style="position: relative;top: 17px;right: -40px;">
+                    <input type="checkbox" id="colorcheck1" name="colorset1" onchange="watchcolorcheck1()">
+                </div>
+            </div>
+            <div style="display: flex;">
+                <div>
+                    <p>使用配色方案2:</p>
+                </div>
+                <div style="position: relative;top: 19px;right: -20px;">
+                    <canvas id="colorCard2" width="80" height="15"></canvas>
+                </div>
+                <div style="position: relative;top: 17px;right: -40px;">
+                    <input type="checkbox" id="colorcheck2" name="colorset2" onchange="watchcolorcheck2()">
+                </div>
+            </div>
+        </div>
+
+
+        <p>--------------------</p>
+        <div>
             <!--柱状图配置-->
             <p>
                 --柱状图配置--

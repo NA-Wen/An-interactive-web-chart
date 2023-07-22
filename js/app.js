@@ -35,7 +35,8 @@ const Statistics = {
         }, 0);
     },
 };
-
+const colorbar = ['#8ECFC9', '#FFBE7A', '#FA7F6F', '#82B0D2', '#BEB8DC', '#E7DAD2', '#999999'];
+const colorbar2 = ["#A1A9D0", "#F0988C", "#B883D4", "#9E9E9E", "#CFEAF1", "#C4A5DE", "#C4A5DE"];
 //TODO: 添加标准配色方案
 const standardSetmap = {
     barcolor: 1, //柱状图配色
@@ -47,7 +48,6 @@ const standardSetmap = {
     dotwidth: 1, //点大小
     dotpattern: 0, //点形状
 };
-
 
 
 
@@ -399,7 +399,41 @@ class Chart {
     }
 
 }
+class colorSet {
+    constructor(colorbar, colorbar2) {
+        this.colorbar = colorbar;
+        this.colorbar2 = colorbar2;
+    }
+    drawset(colorbar, id) {
+        var canvas = document.getElementById(id);
+        var ctx = canvas.getContext("2d");
 
+        // 定义七种颜色和它们的起始和结束位置
+        const colors1 = [
+            { color: colorbar[0], start: 0, end: 1 },
+            { color: colorbar[1], start: 1, end: 2 },
+            { color: colorbar[2], start: 2, end: 3 },
+            { color: colorbar[3], start: 3, end: 4 },
+            { color: colorbar[4], start: 4, end: 5 },
+            { color: colorbar[5], start: 5, end: 6 },
+            { color: colorbar[6], start: 6, end: 7 },
+        ];
+
+        // 创建线性渐变对象
+        const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+
+        // 添加颜色断点到渐变对象
+        for (const item of colors1) {
+            gradient.addColorStop(item.start / 7, item.color);
+            gradient.addColorStop(item.end / 7, item.color);
+        }
+
+        // 使用渐变对象作为填充样式绘制矩形
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+}
 //表格类，不实际存储表格，仅提供对页面内表格的操作
 class Table {
     //构造函数
@@ -462,7 +496,7 @@ Statistics.y_data = [2, 3, 5, 4];
 
 //实例化Chart对象
 var chart = new Chart;
-
+var colorset = new colorSet(colorbar, colorbar2);
 
 //使用setter设置变量值
 //画布id
@@ -533,7 +567,8 @@ table.table_id = 'data-table';
 //绘制图表
 chart.initContext(chart.canvas_id, chart.linecanvas_id, chart.dotcanvas_id, chart.barcanvas_id);
 chart.drawChart();
-
+colorset.drawset(colorbar, "colorCard");
+colorset.drawset(colorbar2, "colorCard2");
 //初始化表格
 initDynamicTable();
 
@@ -600,6 +635,55 @@ function watchlinecheck(event) {
         chart.linecontext.clearRect(0, 0, chart.linecanvas.width, chart.linecanvas.height);
         chart.dotcontext.clearRect(0, 0, chart.linecanvas.width, chart.linecanvas.height);
     }
+}
+
+function watchcolorcheck1(event) {
+    if (colorcheck1.checked) {
+        chart.barcolor = 1;
+        chart.dotcolor = colorbar[6];
+        chart.linecolor = "#999990";
+        updateBarGraph(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, 1, chart.barflag);
+        updateBarShape(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, 1, chart.fillflag);
+        updateBrokenDotGraph(chart.canvas, chart.context, chart.dotcanvas, chart.dotcontext, chart.dotcolor, chart.dotpattern, chart.dotwidth);
+        updateBrokenLineGraph(chart.canvas, chart.context, chart.linecanvas, chart.linecontext, chart.linecolor, chart.linepattern, chart.linewidth);
+
+    } else {
+        getSelectedValue();
+        getshapeSelectedValue();
+        getdotSelectedValue();
+        getlineSelectedValue();
+        watchColorPicker();
+        watchlineColorPicker();
+        watchsliderchange();
+        watchdotColorPicker();
+        watchdotsliderchange();
+    }
+
+}
+
+function watchcolorcheck2(event) {
+    console.log("change2");
+    if (colorcheck2.checked) {
+        chart.barcolor = 2;
+        chart.dotcolor = colorbar[6];
+        chart.linecolor = "#999990";
+        updateBarGraph(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, 2, chart.barflag);
+        updateBarShape(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, 2, chart.fillflag);
+        updateBrokenDotGraph(chart.canvas, chart.context, chart.dotcanvas, chart.dotcontext, chart.dotcolor, chart.dotpattern, chart.dotwidth);
+        updateBrokenLineGraph(chart.canvas, chart.context, chart.linecanvas, chart.linecontext, chart.linecolor, chart.linepattern, chart.linewidth);
+
+    } else {
+        getSelectedValue();
+        getshapeSelectedValue();
+        getdotSelectedValue();
+        getlineSelectedValue();
+        watchColorPicker();
+        watchlineColorPicker();
+        watchsliderchange();
+        watchdotColorPicker();
+        watchdotsliderchange();
+    }
+
 }
 //柱状图填充颜色方案监听
 function getSelectedValue() {
@@ -758,9 +842,17 @@ function updateBarGraph(canvas, context, barcanvas, barcontext, color, flag) {
     for (let i = 0; i < Statistics.count; i++) {
         coordinates.push(chart.getCoordinate(canvas, Statistics.x_data[i], Statistics.y_data[i]));
     }
+    var tempcolor;
     if (flag == 0) {
         for (let i = 0; i < Statistics.count; i++) {
-            barcontext.fillStyle = color;
+            if (color == 1) {
+                barcontext.fillStyle = colorbar[i % 7];
+            } else if (color == 2) {
+                barcontext.fillStyle = colorbar2[i % 7];
+            } else {
+                barcontext.fillStyle = color;
+            }
+            console.log("fillstyle", barcontext.fillStyle);
             barcontext.fillRect(chart.x_origin + coordinates[i].x_pos - chart.bar_half_width, chart.y_origin, 2 * chart.bar_half_width, coordinates[i].y_pos);
             barcontext.fillStyle = 'black';
             chart.drawText(barcontext, Statistics.y_data[i].toString(), chart.x_origin + coordinates[i].x_pos, chart.y_origin + coordinates[i].y_pos + 8);
@@ -775,11 +867,19 @@ function updateBarGraph(canvas, context, barcanvas, barcontext, color, flag) {
                 var gradient = chart.barcontext.createLinearGradient(chart.x_origin + coordinates[0].x_pos - chart.bar_half_width, chart.y_origin, chart.x_origin + coordinates[Statistics.count - 1].x_pos + chart.bar_half_width, chart.y_origin + coordinates[Statistics.count - 1].y_pos);
 
             }
+            if (color == 1) {
+                var tempcolor = colorbar[i % 7];
+
+            } else if (color == 2) {
+                var tempcolor = colorbar2[i % 7];
+            } else {
+                var tempcolor = color;
+            }
             if (flag == 2 || flag == 4) {
-                gradient.addColorStop(0, color);
+                gradient.addColorStop(0, tempcolor);
                 gradient.addColorStop(1, "white");
             } else if (flag == 1 || flag == 3) {
-                gradient.addColorStop(1, color);
+                gradient.addColorStop(1, tempcolor);
                 gradient.addColorStop(0, "white");
 
             }

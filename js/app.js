@@ -189,12 +189,14 @@ class Chart {
      * y轴起始值：1
      * y轴终止值：6（若因变量最大值不超过6），10（若因变量最大值超过6）
      * y轴刻度跨度：1
+     * 还可以修改：
+     * 条宽度等
      */
     resetScale() {
         this.x_scale_begin = Statistics._min_x;
         this.x_scale_end = Statistics._max_x;
         this.x_scale_step = 1;
-        this.y_scale_begin = Statistics._min_y;
+        this.y_scale_begin = 1;//暂时更改这里与上方文字描述一致，与错误无关
         this.y_scale_end = Statistics._max_y <= 6 ? 6 : 10;
         this.y_scale_step = 1;
     }
@@ -223,7 +225,7 @@ class Chart {
         for (let i = this.y_scale_begin; i <= this.y_scale_end; i += this.y_scale_step) {
             y_scale_array.push(i);
         }
-        let y_diatance = this.y_axis_length_ratio * canvas.width / (y_scale_array.length + 1);
+        let y_diatance = this.y_axis_length_ratio * canvas.height / (y_scale_array.length + 1);
         let y_A = (y_length - 2 * y_diatance) / (this.y_scale_end - this.y_scale_begin);
         let y_B = (y_diatance * (this.y_scale_end + this.y_scale_begin) - y_length * this.y_scale_begin) / (this.y_scale_end - this.y_scale_begin);
         let y_pos = y_A * y_data + y_B;

@@ -138,7 +138,6 @@ class Chart {
         dotcanvas：折线图点画布，包含折线图的点元素以及百分比标签
         barcanvas：柱状图画布，包含柱状图矩形以及数量标签
         */
-
         //初始化绘图上下文，坐标轴画布
         this.canvas = document.getElementById(canvas_id);
         this.context = this.canvas.getContext('2d');
@@ -180,26 +179,47 @@ class Chart {
     }
 
     //重设坐标刻度值
-    /**
-     * 若希望优化刻度自适应，可考虑优化该函数
-     * 目前刻度策略：
-     * x轴起始值：最小自变量
-     * x轴终止值：最大自变量
-     * x轴刻度跨度：1
-     * y轴起始值：1
-     * y轴终止值：6（若因变量最大值不超过6），10（若因变量最大值超过6）
-     * y轴刻度跨度：1
-     * 还可以修改：
-     * 条宽度等
-     */
     resetScale() {
+        // 横坐标刻度值
         this.x_scale_begin = Statistics._min_x;
         this.x_scale_end = Statistics._max_x;
         this.x_scale_step = 1;
-        this.y_scale_begin = 1;//暂时更改这里与上方文字描述一致，与错误无关
-        this.y_scale_end = Statistics._max_y <= 6 ? 6 : 10;
-        this.y_scale_step = 1;
+        // 当数据点过于密集时，适当缩小条的宽度比例，使用幂函数进行缩小图形较为美观
+        if (Statistics.count > 7) {
+            let surplus = Statistics.count - 7;
+            let decline_rate = 0.98;
+            this.bar_half_width = this.bar_half_width * Math.pow(decline_rate, surplus);
+        }
+
+        // 纵坐标刻度值
+        //策略一：最大值不超过7，令step=1更美观
+        if (Statistics._max_y <= 7) {
+            this.y_scale_begin = 1;
+            // 最大值4以下最大值就为4
+            this.y_scale_end = Statistics._max_y <= 4 ? 4 : Statistics._max_y + 1;
+            this.y_scale_step = 1;
+        }
+        //策略二：最大值超过7
+        else {
+            // 定义一个最大值与最小值的比例值，根据这个比例值选择不同的策略
+            let flag = (Statistics._max_y - Statistics._min_y) / Statistics._min_y;
+            // 差异悬殊，要防止最大值处折线图超出canva范围
+            if (flag > 2) { 
+                this.y_scale_begin = Math.floor(Statistics._min_y);
+                this.y_scale_end = Math.ceil(Statistics._max_y * 1.2);
+            }
+            // 差异较小，如果不处理可能会出现较为左右差异极端的图像
+            else { 
+                this.y_scale_begin = Math.floor(Statistics._min_y * 0.9);
+                this.y_scale_end = Math.ceil(Statistics._max_y * 1.1);
+            }
+            // 强迫数据点为6个，按6个重设step值
+            let difference = this.y_scale_end - this.y_scale_begin;
+            let point_number = 6;
+            this.y_scale_step = Math.ceil(difference / point_number);
+        }
     }
+
 
     //获取数据点对应绘图坐标（此处指canvas坐标，但原点从图表原点开始，准确的canvas坐标需加上图表原点坐标）
     /*点位置分量（条形统计图中条形x值以底部中心为参考）是变量值的一次函数
@@ -214,9 +234,9 @@ class Chart {
         for (let i = this.x_scale_begin; i <= this.x_scale_end; i += this.x_scale_step) {
             x_scale_array.push(i);
         }
-        let x_diatance = this.x_axis_length_ratio * canvas.width / (x_scale_array.length + 1);
-        let x_A = (x_length - 2 * x_diatance) / (this.x_scale_end - this.x_scale_begin);
-        let x_B = (x_diatance * (this.x_scale_end + this.x_scale_begin) - x_length * this.x_scale_begin) / (this.x_scale_end - this.x_scale_begin);
+        let x_distance = this.x_axis_length_ratio * canvas.width / (x_scale_array.length + 1);
+        let x_A = (x_length - 2 * x_distance) / (this.x_scale_end - this.x_scale_begin);
+        let x_B = (x_distance * (this.x_scale_end + this.x_scale_begin) - x_length * this.x_scale_begin) / (this.x_scale_end - this.x_scale_begin);
         let x_pos = x_A * x_data + x_B;
 
         //获取y坐标
@@ -225,9 +245,9 @@ class Chart {
         for (let i = this.y_scale_begin; i <= this.y_scale_end; i += this.y_scale_step) {
             y_scale_array.push(i);
         }
-        let y_diatance = this.y_axis_length_ratio * canvas.height / (y_scale_array.length + 1);
-        let y_A = (y_length - 2 * y_diatance) / (this.y_scale_end - this.y_scale_begin);
-        let y_B = (y_diatance * (this.y_scale_end + this.y_scale_begin) - y_length * this.y_scale_begin) / (this.y_scale_end - this.y_scale_begin);
+        let y_distance = this.y_axis_length_ratio * canvas.height / (y_scale_array.length + 1);
+        let y_A = (y_length - 2 * y_distance) / (this.y_scale_end - this.y_scale_begin);
+        let y_B = (y_distance * (this.y_scale_end + this.y_scale_begin) - y_length * this.y_scale_begin) / (this.y_scale_end - this.y_scale_begin);
         let y_pos = y_A * y_data + y_B;
 
         return {

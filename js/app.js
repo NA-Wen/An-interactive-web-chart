@@ -204,12 +204,12 @@ class Chart {
             // 定义一个最大值与最小值的比例值，根据这个比例值选择不同的策略
             let flag = (Statistics._max_y - Statistics._min_y) / Statistics._min_y;
             // 差异悬殊，要防止最大值处折线图超出canva范围
-            if (flag > 2) { 
+            if (flag > 2) {
                 this.y_scale_begin = Math.floor(Statistics._min_y);
                 this.y_scale_end = Math.ceil(Statistics._max_y * 1.2);
             }
             // 差异较小，如果不处理可能会出现较为左右差异极端的图像
-            else { 
+            else {
                 this.y_scale_begin = Math.floor(Statistics._min_y * 0.9);
                 this.y_scale_end = Math.ceil(Statistics._max_y * 1.1);
             }
@@ -670,15 +670,26 @@ function watchcolorcheck1(event) {
         updateBrokenLineGraph(chart.canvas, chart.context, chart.linecanvas, chart.linecontext, chart.linecolor, chart.linepattern, chart.linewidth);
 
     } else {
-        getSelectedValue();
-        getshapeSelectedValue();
-        getdotSelectedValue();
-        getlineSelectedValue();
-        watchColorPicker();
-        watchlineColorPicker();
-        watchsliderchange();
-        watchdotColorPicker();
-        watchdotsliderchange();
+        if (colorcheck2.checked) {
+            chart.barcolor = 2;
+            chart.dotcolor = colorbar[6];
+            chart.linecolor = "#999990";
+            updateBarGraph(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, 2, chart.barflag);
+            updateBarShape(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, 2, chart.fillflag);
+            updateBrokenDotGraph(chart.canvas, chart.context, chart.dotcanvas, chart.dotcontext, chart.dotcolor, chart.dotpattern, chart.dotwidth);
+            updateBrokenLineGraph(chart.canvas, chart.context, chart.linecanvas, chart.linecontext, chart.linecolor, chart.linepattern, chart.linewidth);
+        } else {
+            getSelectedValue();
+            getshapeSelectedValue();
+            getdotSelectedValue();
+            getlineSelectedValue();
+            watchColorPicker();
+            watchlineColorPicker();
+            watchsliderchange();
+            watchdotColorPicker();
+            watchdotsliderchange();
+        }
+
     }
 
 }
@@ -695,15 +706,26 @@ function watchcolorcheck2(event) {
         updateBrokenLineGraph(chart.canvas, chart.context, chart.linecanvas, chart.linecontext, chart.linecolor, chart.linepattern, chart.linewidth);
 
     } else {
-        getSelectedValue();
-        getshapeSelectedValue();
-        getdotSelectedValue();
-        getlineSelectedValue();
-        watchColorPicker();
-        watchlineColorPicker();
-        watchsliderchange();
-        watchdotColorPicker();
-        watchdotsliderchange();
+        if (colorcheck1.checked) {
+            chart.barcolor = 1;
+            chart.dotcolor = colorbar[6];
+            chart.linecolor = "#999990";
+            updateBarGraph(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, 1, chart.barflag);
+            updateBarShape(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, 1, chart.fillflag);
+            updateBrokenDotGraph(chart.canvas, chart.context, chart.dotcanvas, chart.dotcontext, chart.dotcolor, chart.dotpattern, chart.dotwidth);
+            updateBrokenLineGraph(chart.canvas, chart.context, chart.linecanvas, chart.linecontext, chart.linecolor, chart.linepattern, chart.linewidth);
+        } else {
+            getSelectedValue();
+            getshapeSelectedValue();
+            getdotSelectedValue();
+            getlineSelectedValue();
+            watchColorPicker();
+            watchlineColorPicker();
+            watchsliderchange();
+            watchdotColorPicker();
+            watchdotsliderchange();
+        }
+
     }
 
 }

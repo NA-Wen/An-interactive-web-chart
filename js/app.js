@@ -30,7 +30,7 @@ const Statistics = {
     //获取y元素的和
     //如果你遇到了问题，那么大概率你的变量数组中存在数字用字符串表示，（正确的是10，数组中是'10'）
     get _sum_y() {
-        return this.y_data.reduce(function(a, b) {
+        return this.y_data.reduce(function (a, b) {
             return a + b;
         }, 0);
     },
@@ -590,6 +590,7 @@ table.table_id = 'data-table';
 //绘制图表
 chart.initContext(chart.canvas_id, chart.linecanvas_id, chart.dotcanvas_id, chart.barcanvas_id);
 chart.drawChart();
+updateChart(chart);//统一一下表达
 colorset.drawset(colorbar, "colorCard");
 colorset.drawset(colorbar2, "colorCard2");
 //初始化表格
@@ -669,7 +670,7 @@ function watchcolorcheck1(event) {
         updateBarShape(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, 1, chart.fillflag);
         updateBrokenDotGraph(chart.canvas, chart.context, chart.dotcanvas, chart.dotcontext, chart.dotcolor, chart.dotpattern, chart.dotwidth);
         updateBrokenLineGraph(chart.canvas, chart.context, chart.linecanvas, chart.linecontext, chart.linecolor, chart.linepattern, chart.linewidth);
-
+        document.getElementById("colorcheck2").checked = false;
     } else {
         if (colorcheck2.checked) {
             chart.barcolor = 2;
@@ -696,7 +697,7 @@ function watchcolorcheck1(event) {
 }
 
 function watchcolorcheck2(event) {
-    console.log("change2");
+    //console.log("change2");
     if (colorcheck2.checked) {
         chart.barcolor = 2;
         chart.dotcolor = colorbar[6];
@@ -705,6 +706,7 @@ function watchcolorcheck2(event) {
         updateBarShape(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, 2, chart.fillflag);
         updateBrokenDotGraph(chart.canvas, chart.context, chart.dotcanvas, chart.dotcontext, chart.dotcolor, chart.dotpattern, chart.dotwidth);
         updateBrokenLineGraph(chart.canvas, chart.context, chart.linecanvas, chart.linecontext, chart.linecolor, chart.linepattern, chart.linewidth);
+        document.getElementById("colorcheck1").checked = false;
 
     } else {
         if (colorcheck1.checked) {
@@ -759,9 +761,9 @@ function getSelectedValue() {
 //柱状图填充形状方案监听
 function getshapeSelectedValue() {
     var selectElement = document.getElementById("myshapeSelect");
-    console.log(selectElement);
+    //console.log(selectElement);
     var selectedValue = selectElement.value;
-    console.log(selectedValue);
+    //console.log(selectedValue);
     var barcolor = colorPicker.value;
     var flag = 0;
     if (selectedValue == "option0") {
@@ -818,7 +820,7 @@ function getlineSelectedValue() {
 }
 
 function updateBarShape(canvas, context, barcanvas, barcontext, color, flag) {
-    console.log(barcheck.checked);
+    //console.log(barcheck.checked);
     if (!barcheck.checked) { barcontext.clearRect(0, 0, barcanvas.width, barcanvas.height); return; }
     let coordinates = [];
     for (let i = 0; i < Statistics.count; i++) {
@@ -897,7 +899,7 @@ function updateBarGraph(canvas, context, barcanvas, barcontext, color, flag) {
             } else {
                 barcontext.fillStyle = color;
             }
-            console.log("fillstyle", barcontext.fillStyle);
+            //console.log("fillstyle", barcontext.fillStyle);
             barcontext.fillRect(chart.x_origin + coordinates[i].x_pos - chart.bar_half_width, chart.y_origin, 2 * chart.bar_half_width, coordinates[i].y_pos);
             barcontext.fillStyle = 'black';
             chart.drawText(barcontext, Statistics.y_data[i].toString(), chart.x_origin + coordinates[i].x_pos, chart.y_origin + coordinates[i].y_pos + 8);
@@ -930,8 +932,8 @@ function updateBarGraph(canvas, context, barcanvas, barcontext, color, flag) {
             }
             barcontext.fillStyle = gradient;
             barcontext.fillRect(chart.x_origin + coordinates[i].x_pos - chart.bar_half_width, chart.y_origin, 2 * chart.bar_half_width, coordinates[i].y_pos);
-            console.log(chart.x_origin + coordinates[i].x_pos - chart.bar_half_width, chart.y_origin, 2 * chart.bar_half_width, coordinates[i].y_pos);
-            console.log(coordinates[i].y_pos);
+            //console.log(chart.x_origin + coordinates[i].x_pos - chart.bar_half_width, chart.y_origin, 2 * chart.bar_half_width, coordinates[i].y_pos);
+            //console.log(coordinates[i].y_pos);
 
             barcontext.fillStyle = 'black';
             chart.drawText(barcontext, Statistics.y_data[i].toString(), chart.x_origin + coordinates[i].x_pos, chart.y_origin + coordinates[i].y_pos + 8);
@@ -1062,6 +1064,7 @@ function updateChart(chart) {
 
     //更新统计图
     updateBarGraph(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, chart.barcolor, chart.barflag);
+    updateBarShape(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, chart.barcolor, chart.fillflag);
     updateBrokenLineGraph(chart.canvas, chart.context, chart.linecanvas, chart.linecontext, chart.linecolor, chart.linepattern, chart.linewidth);
     updateBrokenDotGraph(chart.canvas, chart.context, chart.dotcanvas, chart.dotcontext, chart.dotcolor, chart.dotpattern, chart.dotwidth);
 }
@@ -1070,9 +1073,9 @@ function updateChart(chart) {
 function initDynamicTable() {
     let table_container = document.getElementsByClassName(table.table_container_class)[0];
     let threshold = 20;
-    table.addRow(6);
-    table_container.onmousemove = function() {
-        if (table.table_lines_count > 200) {
+    table.addRow(10);
+    table_container.onmousemove = function () {
+        if (table.table_lines_count > 300) {
             return;
         }
         if (table_container.scrollTop + table_container.clientHeight >= table_container.scrollHeight - threshold) {
@@ -1085,7 +1088,7 @@ function initDynamicTable() {
 function importTable(event) {
     let file = event.target.files[0];
     let reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = function (e) {
         table.clearTable();
         let contents = e.target.result;
         let rows = contents.split('\n').filter(str => str !== '');

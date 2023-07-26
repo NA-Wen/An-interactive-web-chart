@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>图表</title>
+    <title>EasyChart</title>
     <link rel="stylesheet" href="css/main.css">
 </head>
 
@@ -16,58 +16,54 @@
         <!-- 
         为方便管理，此处改进了画布管理；
         canvas：原始画布，包含坐标轴以及坐标轴标签
-        linecanvas: 折线图线画布，包含折线图的折现元素
+        linecanvas: 折线图线画布，包含折线图的折线元素
         dotcanvas：折线图点画布，包含折线图的点元素以及百分比标签
         barcanvas：柱状图画布，包含柱状图矩形以及数量标签
         -->
-        <canvas id="chart-canvas" width="600px" height="400px"></canvas>
-        <canvas id="bar-canvas" width="600px" height="400px" style="position: absolute; top: 10; left: 0;"></canvas>
-        <canvas id="line-canvas" width="600px" height="400px" style="position: absolute; top: 10; left: 0;"></canvas>
-        <canvas id="dot-canvas" width="600px" height="400px" style="position: absolute; top: 10; left: 0;"></canvas>
+        <canvas id="chart-canvas" width="750px" height="500px"></canvas>
+        <canvas id="bar-canvas" width="750px" height="500px"></canvas>
+        <canvas id="line-canvas" width="750px" height="500px"></canvas>
+        <canvas id="dot-canvas" width="750px" height="500px"></canvas>
 
     </div>
 
     <div>
         <!--图表配置区域-->
-        <div>
-            <div style="display: flex;">
+        <div class="color-scheme">
+            <div class="flex-widget">
                 <div>
-                    <p>使用配色方案1:</p>
+                    <p class="label-large">使用配色方案1:</p>
                 </div>
-                <div style="position: relative;top: 19px;right: -20px;">
+                <div class="color-card-block">
                     <canvas id="colorCard" width="80" height="15"></canvas>
                 </div>
-                <div style="position: relative;top: 17px;right: -40px;">
+                <div class="color-checkbox">
                     <input type="checkbox" id="colorcheck1" name="colorset1" onchange="watchcolorcheck1()">
                 </div>
             </div>
-            <div style="display: flex;">
+            <div class="flex-widget">
                 <div>
-                    <p>使用配色方案2:</p>
+                    <p class="label-large">使用配色方案2:</p>
                 </div>
-                <div style="position: relative;top: 19px;right: -20px;">
+                <div class="color-card-block">
                     <canvas id="colorCard2" width="80" height="15"></canvas>
                 </div>
-                <div style="position: relative;top: 17px;right: -40px;">
+                <div class="color-checkbox">
                     <input type="checkbox" id="colorcheck2" name="colorset2" onchange="watchcolorcheck2()">
                 </div>
             </div>
         </div>
 
-
-        <p>--------------------</p>
-        <div>
+        <div class="bar-set">
             <!--柱状图配置-->
-            <p>
-                --柱状图配置--
-            </p>
-            <div style="display: flex;">
+            <p class="label-large">柱状图配置</p>
+            <div class="flex-widget">
                 <div>
-                    <label style="font-size: 12px;">柱状图颜色</label>
+                    <label class="label-small">柱状图颜色</label>
                     <input type="color" id="colorPicker" onchange="watchColorPicker()">
                 </div>
-                <div style="position: relative;left: 30px;">
-                    <label style="font-size: 12px;">柱状图填充颜色方案</label>
+                <div>
+                    <label class="label-small">柱状图填充颜色方案</label>
                     <select id="mySelect" onchange=" getSelectedValue()">
                         <option vaule="option0">无渐变</option>
                         <option value="option1">渐变类型1</option>
@@ -76,40 +72,40 @@
                         <option value="option4">渐变类型4</option>
                     </select>
                 </div>
-                <div style="position: relative;left: 30px;">
-                    <label style="font-size: 12px;">柱状图填充形状方案</label>
+                <div>
+                    <label class="label-small">柱状图填充形状方案</label>
                     <select id="myshapeSelect" onchange=" getshapeSelectedValue()">
-                    <option vaule="option0">无填充形状</option>
-                    <option value="option1">↗斜线填充</option>
-                    <option value="option2">↖斜线填充</option>
-                    <option value="option3">⚪填充</option>
-                  </select>
+                        <option vaule="option0">无填充形状</option>
+                        <option value="option1">↗斜线填充</option>
+                        <option value="option2">↖斜线填充</option>
+                        <option value="option3">⚪填充</option>
+                    </select>
                 </div>
 
-                <div style="position: relative;left: 90px;">
+                <div>
                     <input type="checkbox" id="barcheck" name="scales" checked onchange="watchbarcheck()">
-                    <label for="scales">柱状图显示</label>
+                    <label for="scales" class="label-middle">柱状图显示</label>
                 </div>
             </div>
         </div>
 
-        <div>
+        <div class="brokenline-set">
             <!--折线图配置-->
-            <p>--折线图配置--</p>
-            <div style="display:flex;flex-direction:column ;">
+            <p class="label-large">折线图配置</p>
+            <div class="flex-widget-column">
 
-                <div style="display: flex;">
+                <div class="flex-widget">
                     <div>
-                        <label style="font-size: 12px;">曲线颜色</label>
+                        <label class="label-small">曲线颜色</label>
                         <input type="color" id="colorPicker2" onchange="watchlineColorPicker()">
                     </div>
 
-                    <div style="position: relative;left:30px">
-                        <label style="font-size: 12px;">曲线粗细</label>
+                    <div>
+                        <label class="label-small">曲线粗细</label>
                         <input type="range" id="slider" min="1" max="100" value="50" onchange="watchsliderchange()">
                     </div>
-                    <div style="position: relative;left:50px">
-                        <label style="font-size: 12px;">曲线线型</label>
+                    <div>
+                        <label class="label-small">曲线线型</label>
                         <select id="mylineSelect" onchange=" getlineSelectedValue()">
                             <option vaule="option0">实线</option>
                             <option value="option1">虚线类型1</option>
@@ -119,27 +115,27 @@
                         </select>
                     </div>
                 </div>
-                <div style="display: flex;position:relative;top: 20px;">
-                    <div style="position: relative;">
-                        <label style="font-size: 12px;">标记点颜色</label>
+                <div class="flex-widget">
+                    <div>
+                        <label class="label-small">标记点颜色</label>
                         <input type="color" id="colorPicker3" onchange="watchdotColorPicker()">
                     </div>
-                    <div style="position: relative;left:30px">
-                        <label style="font-size: 12px;">标记点大小</label>
+                    <div>
+                        <label class="label-small">标记点大小</label>
                         <input type="range" id="slider2" min="1" max="100" value="50" onchange="watchdotsliderchange()">
                     </div>
 
-                    <div style="position: relative;left:50px">
-                        <label style="font-size: 12px;">标记点形状</label>
+                    <div>
+                        <label class="label-small">标记点形状</label>
                         <select id="mydotSelect" onchange=" getdotSelectedValue()">
                             <option vaule="option0">圆形</option>
                             <option value="option1">三角形</option>
                             <option value="option2">正方形</option>
                         </select>
                     </div>
-                    <div style="position: relative;left:70px">
+                    <div>
                         <input type="checkbox" id="linecheck" name="scales" checked onchange="watchlinecheck()">
-                        <label for="scales">折线图显示</label>
+                        <label for="scales" class="label-middle">折线图显示</label>
                     </div>
                 </div>
             </div>

@@ -184,10 +184,11 @@ class Chart {
         this.x_scale_begin = Statistics._min_x;
         this.x_scale_end = Statistics._max_x;
         this.x_scale_step = 1;
+        this.bar_half_width = 20;
         // 当数据点过于密集时，适当缩小条的宽度比例，使用幂函数进行缩小图形较为美观
-        if (Statistics.count > 7) {
-            let surplus = Statistics.count - 7;
-            let decline_rate = 0.98;
+        if (this.x_scale_end - this.x_scale_begin > 7) {
+            let surplus = this.x_scale_end - this.x_scale_begin - 7;
+            let decline_rate = 0.96;
             this.bar_half_width = this.bar_half_width * Math.pow(decline_rate, surplus);
         }
 

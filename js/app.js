@@ -30,13 +30,15 @@ const Statistics = {
     //获取y元素的和
     //如果你遇到了问题，那么大概率你的变量数组中存在数字用字符串表示，（正确的是10，数组中是'10'）
     get _sum_y() {
-        return this.y_data.reduce(function (a, b) {
+        return this.y_data.reduce(function(a, b) {
             return a + b;
         }, 0);
     },
 };
 const colorbar = ['#8ECFC9', '#FFBE7A', '#FA7F6F', '#82B0D2', '#BEB8DC', '#E7DAD2', '#999999'];
-const colorbar2 = ["#A1A9D0", "#F0988C", "#B883D4", "#9E9E9E", "#CFEAF1", "#C4A5DE", "#C4A5DE"];
+const colorbar2 = ["#A1A9D0", "#F0988C", "#B883D4", "#9E9E9E", "#CFEAF1", "#C4A5DE", '#787878'];
+const colorbar3 = ['#00A8B5', '#FFCC29', '#FF6460', '#32A4C0', '#C27BA0', '#F3B5A5', '#787878'];
+const colorbar4 = ["#E98EEB", "#FAB1AA", "#C882DB", "#838383", "#C9F1F5", "#C397E3", "#E0B0C5"];
 //TODO: 添加标准配色方案
 const standardSetmap = {
     barcolor: 1, //柱状图配色
@@ -590,9 +592,11 @@ table.table_id = 'data-table';
 //绘制图表
 chart.initContext(chart.canvas_id, chart.linecanvas_id, chart.dotcanvas_id, chart.barcanvas_id);
 chart.drawChart();
-updateChart(chart);//统一一下表达
+updateChart(chart); //统一一下表达
 colorset.drawset(colorbar, "colorCard");
 colorset.drawset(colorbar2, "colorCard2");
+colorset.drawset(colorbar3, "colorCard3");
+colorset.drawset(colorbar4, "colorCard4");
 //初始化表格
 initDynamicTable();
 
@@ -707,6 +711,9 @@ function watchlinecheck(event) {
 
 function watchcolorcheck1(event) {
     if (colorcheck1.checked) {
+        colorcheck2.checked = false;
+        colorcheck3.checked = false;
+        colorcheck4.checked = false;
         chart.barcolor = 1;
         chart.dotcolor = colorbar[6];
         chart.linecolor = "#999990";
@@ -714,28 +721,16 @@ function watchcolorcheck1(event) {
         updateBarShape(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, 1, chart.fillflag);
         updateBrokenDotGraph(chart.canvas, chart.context, chart.dotcanvas, chart.dotcontext, chart.dotcolor, chart.dotpattern, chart.dotwidth);
         updateBrokenLineGraph(chart.canvas, chart.context, chart.linecanvas, chart.linecontext, chart.linecolor, chart.linepattern, chart.linewidth);
-        document.getElementById("colorcheck2").checked = false;
     } else {
-        if (colorcheck2.checked) {
-            chart.barcolor = 2;
-            chart.dotcolor = colorbar[6];
-            chart.linecolor = "#999990";
-            updateBarGraph(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, 2, chart.barflag);
-            updateBarShape(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, 2, chart.fillflag);
-            updateBrokenDotGraph(chart.canvas, chart.context, chart.dotcanvas, chart.dotcontext, chart.dotcolor, chart.dotpattern, chart.dotwidth);
-            updateBrokenLineGraph(chart.canvas, chart.context, chart.linecanvas, chart.linecontext, chart.linecolor, chart.linepattern, chart.linewidth);
-        } else {
-            getSelectedValue();
-            getshapeSelectedValue();
-            getdotSelectedValue();
-            getlineSelectedValue();
-            watchColorPicker();
-            watchlineColorPicker();
-            watchsliderchange();
-            watchdotColorPicker();
-            watchdotsliderchange();
-        }
-
+        getSelectedValue();
+        getshapeSelectedValue();
+        getdotSelectedValue();
+        getlineSelectedValue();
+        watchColorPicker();
+        watchlineColorPicker();
+        watchsliderchange();
+        watchdotColorPicker();
+        watchdotsliderchange();
     }
 
 }
@@ -743,6 +738,9 @@ function watchcolorcheck1(event) {
 function watchcolorcheck2(event) {
     //console.log("change2");
     if (colorcheck2.checked) {
+        colorcheck3.checked = false;
+        colorcheck4.checked = false;
+        colorcheck1.checked = false;
         chart.barcolor = 2;
         chart.dotcolor = colorbar[6];
         chart.linecolor = "#999990";
@@ -750,29 +748,74 @@ function watchcolorcheck2(event) {
         updateBarShape(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, 2, chart.fillflag);
         updateBrokenDotGraph(chart.canvas, chart.context, chart.dotcanvas, chart.dotcontext, chart.dotcolor, chart.dotpattern, chart.dotwidth);
         updateBrokenLineGraph(chart.canvas, chart.context, chart.linecanvas, chart.linecontext, chart.linecolor, chart.linepattern, chart.linewidth);
-        document.getElementById("colorcheck1").checked = false;
 
     } else {
-        if (colorcheck1.checked) {
-            chart.barcolor = 1;
-            chart.dotcolor = colorbar[6];
-            chart.linecolor = "#999990";
-            updateBarGraph(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, 1, chart.barflag);
-            updateBarShape(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, 1, chart.fillflag);
-            updateBrokenDotGraph(chart.canvas, chart.context, chart.dotcanvas, chart.dotcontext, chart.dotcolor, chart.dotpattern, chart.dotwidth);
-            updateBrokenLineGraph(chart.canvas, chart.context, chart.linecanvas, chart.linecontext, chart.linecolor, chart.linepattern, chart.linewidth);
-        } else {
-            getSelectedValue();
-            getshapeSelectedValue();
-            getdotSelectedValue();
-            getlineSelectedValue();
-            watchColorPicker();
-            watchlineColorPicker();
-            watchsliderchange();
-            watchdotColorPicker();
-            watchdotsliderchange();
-        }
+        getSelectedValue();
+        getshapeSelectedValue();
+        getdotSelectedValue();
+        getlineSelectedValue();
+        watchColorPicker();
+        watchlineColorPicker();
+        watchsliderchange();
+        watchdotColorPicker();
+        watchdotsliderchange();
+    }
 
+}
+
+function watchcolorcheck3(event) {
+    //console.log("change2");
+    if (colorcheck3.checked) {
+        colorcheck2.checked = false;
+        colorcheck4.checked = false;
+        colorcheck1.checked = false;
+        chart.barcolor = 3;
+        chart.dotcolor = colorbar[6];
+        chart.linecolor = "#999990";
+        updateBarGraph(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, 3, chart.barflag);
+        updateBarShape(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, 3, chart.fillflag);
+        updateBrokenDotGraph(chart.canvas, chart.context, chart.dotcanvas, chart.dotcontext, chart.dotcolor, chart.dotpattern, chart.dotwidth);
+        updateBrokenLineGraph(chart.canvas, chart.context, chart.linecanvas, chart.linecontext, chart.linecolor, chart.linepattern, chart.linewidth);
+
+    } else {
+        getSelectedValue();
+        getshapeSelectedValue();
+        getdotSelectedValue();
+        getlineSelectedValue();
+        watchColorPicker();
+        watchlineColorPicker();
+        watchsliderchange();
+        watchdotColorPicker();
+        watchdotsliderchange();
+    }
+
+}
+
+
+function watchcolorcheck4(event) {
+    //console.log("change2");
+    if (colorcheck4.checked) {
+        colorcheck1.checked = false;
+        colorcheck2.checked = false;
+        colorcheck3.checked = false;
+        chart.barcolor = 4;
+        chart.dotcolor = colorbar[6];
+        chart.linecolor = "#999990";
+        updateBarGraph(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, 4, chart.barflag);
+        updateBarShape(chart.canvas, chart.context, chart.barcanvas, chart.barcontext, 4, chart.fillflag);
+        updateBrokenDotGraph(chart.canvas, chart.context, chart.dotcanvas, chart.dotcontext, chart.dotcolor, chart.dotpattern, chart.dotwidth);
+        updateBrokenLineGraph(chart.canvas, chart.context, chart.linecanvas, chart.linecontext, chart.linecolor, chart.linepattern, chart.linewidth);
+
+    } else {
+        getSelectedValue();
+        getshapeSelectedValue();
+        getdotSelectedValue();
+        getlineSelectedValue();
+        watchColorPicker();
+        watchlineColorPicker();
+        watchsliderchange();
+        watchdotColorPicker();
+        watchdotsliderchange();
     }
 
 }
@@ -940,6 +983,12 @@ function updateBarGraph(canvas, context, barcanvas, barcontext, color, flag) {
                 barcontext.fillStyle = colorbar[i % 7];
             } else if (color == 2) {
                 barcontext.fillStyle = colorbar2[i % 7];
+            } else if (color == 3) {
+                barcontext.fillStyle = colorbar3[i % 7];
+
+            } else if (color == 4) {
+                barcontext.fillStyle = colorbar4[i % 7];
+
             } else {
                 barcontext.fillStyle = color;
             }
@@ -1118,7 +1167,7 @@ function initDynamicTable() {
     let table_container = document.getElementsByClassName(table.table_container_class)[0];
     let threshold = 20;
     table.addRow(10);
-    table_container.onmousemove = function () {
+    table_container.onmousemove = function() {
         if (table.table_lines_count > 300) {
             return;
         }
@@ -1132,7 +1181,7 @@ function initDynamicTable() {
 function importTable(event) {
     let file = event.target.files[0];
     let reader = new FileReader();
-    reader.onload = function (e) {
+    reader.onload = function(e) {
         table.clearTable();
         let contents = e.target.result;
         let rows = contents.split('\n').filter(str => str !== '');

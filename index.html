@@ -31,8 +31,8 @@
         <!--图表配置区域-->
         <div class="color-scheme">
             <div class="flex-widget">
-                <div>
-                    <p class="label-large">使用配色方案1:</p>
+                <div class="set">
+                    <p class="label-large">Color-Set1:</p>
                 </div>
                 <div class="color-card-block">
                     <canvas id="colorCard" width="80" height="15"></canvas>
@@ -42,8 +42,8 @@
                 </div>
             </div>
             <div class="flex-widget">
-                <div>
-                    <p class="label-large">使用配色方案2:</p>
+                <div class="set">
+                    <p class="label-large">Color-Set2:</p>
                 </div>
                 <div class="color-card-block">
                     <canvas id="colorCard2" width="80" height="15"></canvas>
@@ -52,19 +52,44 @@
                     <input type="checkbox" id="colorcheck2" name="colorset2" onchange="watchcolorcheck2()">
                 </div>
             </div>
+            <div class="flex-widget">
+                <div class="set">
+                    <p class="label-large">Color-Set3:</p>
+                </div>
+                <div class="color-card-block">
+                    <canvas id="colorCard3" width="80" height="15"></canvas>
+                </div>
+                <div class="color-checkbox">
+                    <input type="checkbox" id="colorcheck3" name="colorset3" onchange="watchcolorcheck3()">
+                </div>
+            </div>
+            <div class="flex-widget">
+                <div class="set">
+                    <p class="label-large">Color-Set4:</p>
+                </div>
+                <div class="color-card-block">
+                    <canvas id="colorCard4" width="80" height="15"></canvas>
+                </div>
+                <div class="color-checkbox">
+                    <input type="checkbox" id="colorcheck4" name="colorset4" onchange="watchcolorcheck4()">
+                </div>
+            </div>
         </div>
 
         <div class="bar-set">
             <!--柱状图配置-->
-            <p class="label-large">柱状图配置</p>
+            <div id="tableset">
+                <p class="label-large" style="color:rgb(25, 53, 78) ;">柱状图配置</p>
+            </div>
+
             <div class="flex-widget">
-                <div>
-                    <label class="label-small">柱状图颜色</label>
+                <div class="colordiv">
+                    <label class="label-small" id="color">柱状图颜色</label>
                     <input type="color" id="colorPicker" onchange="watchColorPicker()">
                 </div>
-                <div>
-                    <label class="label-small">柱状图填充颜色方案</label>
-                    <select id="mySelect" onchange=" getSelectedValue()">
+                <div class="middlediv">
+                    <label class="label-small" id="fill">柱状图填充颜色方案</label>
+                    <select id="mySelect" onchange=" getSelectedValue()" style="float:right;">
                         <option vaule="option0">无渐变</option>
                         <option value="option1">渐变类型1</option>
                         <option value="option2">渐变类型2</option>
@@ -72,9 +97,9 @@
                         <option value="option4">渐变类型4</option>
                     </select>
                 </div>
-                <div>
-                    <label class="label-small">柱状图填充形状方案</label>
-                    <select id="myshapeSelect" onchange=" getshapeSelectedValue()">
+                <div class="lastdiv">
+                    <label class="label-small" id="fill">柱状图填充形状方案</label>
+                    <select id="myshapeSelect" onchange=" getshapeSelectedValue()" style="float: right;">
                         <option vaule="option0">无填充形状</option>
                         <option value="option1">↗斜线填充</option>
                         <option value="option2">↖斜线填充</option>
@@ -85,7 +110,6 @@
                 <div>
                     <input type="checkbox" id="barcheck" name="scales" checked onchange="watchbarcheck()">
                     <label for="scales" class="label-middle">
-                    柱状图显示
                     </label>
                 </div>
             </div>
@@ -93,22 +117,25 @@
 
         <div class="brokenline-set">
             <!--折线图配置-->
-            <p class="label-large">折线图配置</p>
+            <div id="tableset">
+                <p class="label-large" style="color:rgb(25, 53, 78) ;">折线图配置</p>
+            </div>
+
             <div class="flex-widget-column">
 
                 <div class="flex-widget">
-                    <div>
-                        <label class="label-small">曲线颜色</label>
+                    <div class="colordiv">
+                        <label class="label-small" id="color">曲线颜色</label>
                         <input type="color" id="colorPicker2" onchange="watchlineColorPicker()">
                     </div>
 
-                    <div>
-                        <label class="label-small">曲线粗细</label>
-                        <input type="range" id="slider" min="1" max="100" value="50" onchange="watchsliderchange()">
+                    <div class="middlediv">
+                        <label class="label-small" id="range">曲线粗细</label>
+                        <input type="range" id="slider" min="1" max="100" value="50" style="float:right;" onchange="watchsliderchange()">
                     </div>
-                    <div>
-                        <label class="label-small">曲线线型</label>
-                        <select id="mylineSelect" onchange=" getlineSelectedValue()">
+                    <div class="lastdiv">
+                        <label class="label-small" id="choose">曲线线型</label>
+                        <select id="mylineSelect" onchange=" getlineSelectedValue()" style="float:right;">
                             <option vaule="option0">实线</option>
                             <option value="option1">虚线类型1</option>
                             <option value="option2">虚线类型2</option>
@@ -118,18 +145,18 @@
                     </div>
                 </div>
                 <div class="flex-widget">
-                    <div>
-                        <label class="label-small">标记点颜色</label>
+                    <div class="colordiv">
+                        <label class="label-small" id="color">标记点颜色</label>
                         <input type="color" id="colorPicker3" onchange="watchdotColorPicker()">
                     </div>
-                    <div>
-                        <label class="label-small">标记点大小</label>
-                        <input type="range" id="slider2" min="1" max="100" value="50" onchange="watchdotsliderchange()">
+                    <div class="middlediv">
+                        <label class="label-small" id="range">标记点大小</label>
+                        <input type="range" id="slider2" min="1" max="100" value="50" style="float:right;" onchange="watchdotsliderchange()">
                     </div>
 
-                    <div>
-                        <label class="label-small">标记点形状</label>
-                        <select id="mydotSelect" onchange=" getdotSelectedValue()">
+                    <div class="lastdiv">
+                        <label class="label-small" id="choose">标记点形状</label>
+                        <select id="mydotSelect" onchange=" getdotSelectedValue()" style="float:right;">
                             <option vaule="option0">圆形</option>
                             <option value="option1">三角形</option>
                             <option value="option2">正方形</option>
@@ -137,72 +164,81 @@
                     </div>
                     <div>
                         <input type="checkbox" id="linecheck" name="scales" checked onchange="watchlinecheck()">
-                        <label for="scales" class="label-middle">折线图显示</label>
+                        <label for="scales" class="label-middle"></label>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="s-set">
-            <!--文字格式配置-->
-            <p class="label-large">文字格式配置</p>
+            <!--文字配置-->
+            <div id="tableset">
+                <p class="label-large" style="color:rgb(25, 53, 78) ;">文字配置</p>
+            </div>
             <div class="flex-widget">
-                <div>
-                    <label for="s_font" class="label-small">字体:</label>
-                    <select id="s_font" onchange="watchTextFont()">
-                        <option value="Arial">Arial</option>
-                        <option value="仿宋">仿宋</option>
-                        <option value="黑体">黑体</option>
-                        <option value="宋体">宋体</option>
-                        <option value="楷体">楷体</option>
-                    </select>
-                    <label for="s_size" class="label-small">字号:</label>
-                    <input type="number" id="s_size" value="14" size="15" onchange="watchTextSize()">
+                <div class="flex-widget">
+                    <div class="colordiv">
+                        <label for="s_color" class="label-small" id="color">文字颜色</label>
+                        <input type="color" id="s_color" value="#000000" onchange="watchTextColor()">
+                    </div>
+                    <div class="middlediv">
+                        <label for="s_font" class="label-small" id="char">文字字体</label>
+                        <select id="s_font" onchange="watchTextFont()" style="float:right;">
+                            <option value="Arial">Arial</option>
+                            <option value="仿宋">仿宋</option>
+                            <option value="黑体">黑体</option>
+                            <option value="宋体">宋体</option>
+                            <option value="楷体">楷体</option>
+                        </select>
+                    </div>
+                    <div class="lastdiv">
+                        <label for="s_size" class="label-small" id="char">文字字号</label>
+                        <input type="number" id="s_size" value="14" size="15" onchange="watchTextSize()" style="float:right;">
 
-                    <label for="s_color" class="label-small">颜色:</label>
-                    <input type="color" id="s_color" value="#000000" onchange="watchTextColor()">
+                    </div>
+
                 </div>
             </div>
         </div>
 
-            <div class="table-tools">
-                <p class="file-input-container">
-                    导入
-                    <input type="file" id="file-input" accept=".csv" onchange="importTable(event)">
-                </p>
-                <button id="apply-button" onclick="applyTable()">应用</button>
-            </div>
-
-            <div class="table-container">
-                <!--数据配置图表-->
-                <table id="data-table">
-                    <thead>
-                        <tr>
-                            <th>年份</th>
-                            <th>产量(万吨)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td contenteditable="true">2019</td>
-                            <td contenteditable="true">2</td>
-                        </tr>
-                        <tr>
-                            <td contenteditable="true">2020</td>
-                            <td contenteditable="true">3</td>
-                        </tr>
-                        <tr>
-                            <td contenteditable="true">2021</td>
-                            <td contenteditable="true">5</td>
-                        </tr>
-                        <tr>
-                            <td contenteditable="true">2022</td>
-                            <td contenteditable="true">4</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+        <div class="table-tools">
+            <p class="file-input-container">
+                导入
+                <input type="file" id="file-input" accept=".csv" onchange="importTable(event)">
+            </p>
+            <button id="apply-button" onclick="applyTable()">应用</button>
         </div>
+
+        <div class="table-container">
+            <!--数据配置图表-->
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th>年份</th>
+                        <th>产量(万吨)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td contenteditable="true">2019</td>
+                        <td contenteditable="true">2</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">2020</td>
+                        <td contenteditable="true">3</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">2021</td>
+                        <td contenteditable="true">5</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">2022</td>
+                        <td contenteditable="true">4</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
     <!--建议将js引用置于body最后-->
     <script src="js/app.js"></script>
 </body>

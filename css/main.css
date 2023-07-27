@@ -1,19 +1,136 @@
 /*
 *****网页背景：开始*****
 **/
+
+
+/* 设置全局样式 */
+
 body {
-    background-color: ghostwhite;
+    font-family: Arial, sans-serif;
+    background-color: #030e1f;
+    color: #fff;
 }
+
+p,
+div,
+label {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: SimHei, "微软雅黑", sans-serif;
+    color: #dee4e8;
+}
+
+
+/* 按钮样式 */
+
+.button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #2a4bd7;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #1a2a6c;
+}
+
+
+/* 文字样式 */
+
+h1,
+h2,
+h3 {
+    color: #00f4ff;
+}
+
+p {
+    line-height: 1.6;
+}
+
+
+/* 下拉选项框样式 */
+
+.select-box {
+    width: 200px;
+    padding: 8px;
+    background-color: #0e294d;
+    color: #fff;
+    border: 1px solid #31333b;
+    border-radius: 10px;
+}
+
+select {
+    border: 2px solid #252b43;
+    background-color: #9faec3;
+    color: #131a2b;
+    border-radius: 5px;
+    width: 200px;
+    cursor: pointer;
+}
+
+
+/* 添加自定义样式 */
+
+select::after {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #8a3030;
+    pointer-events: none;
+}
+
+
+/* 修改下拉选中项的样式 */
+
+select option:checked {
+    background-color: #b8bcce;
+}
+
+
+/* 自定义下拉图标样式，可选 */
+
+
+/* 勾选框样式 */
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-label {
+    margin-left: 10px;
+    color: #fff;
+}
+
+.checkbox-input {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #141518;
+    border-radius: 3px;
+    background-color: #0e294d;
+    cursor: pointer;
+}
+
+.checkbox-input:checked {
+    background-color: #2a4bd7;
+}
+
 
 /*
 *****网页背景：结束*****
 **/
 
+
 /*
 *****元素排布区域：开始*****
 **/
 
+
 /*select下拉框美化：边框长度调节、边框颜色优化*/
+
 select {
     background: #fafdfe;
     height: 23px;
@@ -24,75 +141,164 @@ select {
     -webkit-border-radius: 2px;
     border-radius: 2px;
 }
+
+
 /*input控件美化：选中边框产生蓝色荧光*/
+
 input:focus {
     border-color: #66afe9;
     outline: 0;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6)
 }
 
+
 /*使用flex排布的元素*/
+
 .flex-widget {
     display: flex;
     gap: 20px;
 }
 
+
 /*纵向flex排补的元素*/
+
 .flex-widget-column {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
+
 /*
 *****元素排布区域：结束*****
 **/
 
+
 /*
 *****标签区域：开始*****
 **/
+
+
 /*较大的标签*/
+
 .label-large {
     font-size: 16px;
     font-family: "Microsoft YaHei", sans-serif;
     font-weight: bolder;
 }
 
+
 /*中等大小标签*/
+
 .label-middle {
     font-size: 14px;
     font-family: "Microsoft YaHei", sans-serif;
 }
+
+
 /*较小的标签*/
+
 .label-small {
-    font-size: 12px;
-    font-family: "Microsoft YaHei", sans-serif;
+    font-size: 15px;
+    font-weight: bolder;
+    height: 15px;
+    width: 20px;
 }
+
+.label-small#color {
+    background-color: #d3b5dc;
+    color: #4e0e4d;
+    border: 2px solid #4e0e4d;
+    border-radius: 4px;
+    font-family: "Microsoft YaHei", sans-serif;
+    box-shadow: #4e0e4d 5px 5px 20px;
+}
+
+.label-small#range {
+    background-color: #b5c5dc;
+    color: #0e294d;
+    border: 2px solid #0e294d;
+    border-radius: 4px;
+    font-family: "Microsoft YaHei", sans-serif;
+    box-shadow: #3d587a 5px 5px 20px;
+}
+
+.label-small#fill {
+    background-color: #b5dcc5;
+    color: #0e4d2a;
+    border: 2px solid #0e4d2a;
+    border-radius: 4px;
+    font-family: "Microsoft YaHei", sans-serif;
+    box-shadow: #709681 5px 5px 20px;
+}
+
+.label-small#choose {
+    background-color: #dcb5a4;
+    color: #4d2a0e;
+    border: 2px solid #4d2a0e;
+    border-radius: 4px;
+    font-family: "Microsoft YaHei", sans-serif;
+    box-shadow: #8c5f3a 5px 5px 20px;
+}
+
+.label-small#char {
+    background-color: #dcb5b5;
+    color: #6e1414;
+    border: 2px solid #8c1111;
+    border-radius: 4px;
+    font-family: "Microsoft YaHei", sans-serif;
+    box-shadow: #b36666 5px 5px 20px;
+}
+
+.label-small:hover {
+    text-decoration: underline;
+}
+
 
 /*
 *****标签区域：结束*****
 **/
 
+
 /*
 *****图表区域：开始*****
 **/
 
+
 /*图表绘制区域*/
+
 .chart-canvas-block {
     /*居中图表绘制区域*/
     position: absolute;
     left: 5%;
     top: 5%;
     transform: translate(-0%, -0%);
+    background-color: rgb(238, 241, 244);
+    border-radius: 10px;
+    border-color: antiquewhite;
+    box-shadow: 1px 2px 10px #ccd9d9;
 }
+
+#tableset>p {
+    background-color: aliceblue;
+    width: 130px;
+    height: 25px;
+    border-radius: 4px;
+    font-weight: 900;
+    font-size: 20px;
+    box-shadow: 1px 2px 2px #e4e8e8;
+    box-shadow: #e4e8e8 1px 2px 10px;
+}
+
+#tabelset {}
+
 
 /*原始画布canvas*/
-#chart-canvas {
-    border: 1px solid #000;
-}
+
 
 /*柱状图画布 折线图线画布 折线图点画布canvas*/
+
 #bar-canvas,
 #line-canvas,
 #dot-canvas {
@@ -101,137 +307,284 @@ input:focus {
     left: 0px;
 }
 
+
 /*
 *****图表区域：结束*****
 **/
+
 
 /*
 *****预置颜色及图表配置区域：开始*****
 **/
 
+
 /*颜色预置方案区域*/
+
 .color-scheme {
     position: absolute;
-    top: 10px;
-    right: 80px;
+    top: 650px;
+    right: 210px;
 }
 
+.set {
+    color: #a8cbe3;
+    position: relative;
+    height: 45px;
+}
+
+
 /*颜色卡区域*/
+
 .color-card-block {
     position: relative;
     top: 19px;
     right: -20px;
 }
 
+
 /*颜色选择框*/
+
 .color-checkbox {
     position: relative;
     top: 17px;
     right: -40px;
 }
 
+input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="color"] {
+    float: right;
+}
+
+
 /*柱状图配置区域*/
+
 .bar-set {
     position: absolute;
     top: 550px;
 }
 
+
 /*折线图配置区域*/
+
 .brokenline-set {
     position: absolute;
     top: 650px;
 }
-.s-set{
-    position:absolute;
-    top:800px;
+
+.s-set {
+    position: absolute;
+    top: 800px;
 }
+
 
 /*
 *****预置颜色及图表配置区域：结束*****
 **/
 
+
 /*
 *****表格区域：开始*****
 **/
 
+
 /*表格容器*/
+
 .table-container {
     position: absolute;
-    left: 75%;
-    top: 20%;
+    left: 70%;
+    top: 5%;
     height: 400px;
     overflow: auto;
+    border: 3px solid rgb(216, 222, 230);
 }
 
+
 /*表格*/
+
 #data-table {
     border-collapse: collapse;
     width: 100%;
+    border: 3px solid rgb(216, 222, 230);
 }
 
+
 /*单元格*/
+
 #data-table th,
 #data-table td {
     width: 100px;
     height: 20px;
-    border: 1px solid black;
+    border: 3px solid rgb(216, 222, 230);
     padding: 7px;
     text-align: center;
 }
 
+#data-table {
+    color: rgb(250, 247, 242);
+}
+
+
 /*表格按钮区域*/
+
 .table-tools {
     position: absolute;
-    left: 76%;
-    top: 90%;
+    left: 70%;
+    top: 58%;
     width: 200px;
     display: flex;
     justify-content: space-between;
 }
 
+
 /*表格导入“按钮”的容器（这两个按钮仅为貌似）*/
+
 .file-input-container {
     position: relative;
     top: -16px;
     background: lavender;
-    border: none;
     padding: 5px 29px;
     overflow: hidden;
     color: lightseagreen;
+    font-weight: 700;
+    border-radius: 10px;
+    height: 35px;
+    box-shadow: #e4e8e8 1px 2px 10px;
 }
 
+
 /*表格导入“按钮”*/
+
 #file-input {
     position: absolute;
     right: 0px;
     top: 0px;
+    border-radius: 10px;
+    font-weight: 700;
+    height: 40px;
 }
+
 
 /*鼠标在上的表格导入“按钮”*/
+
 .file-input-container:hover {
     background: lightcyan;
+    font-weight: 700;
     color: darkcyan;
+    border-radius: 10px;
+    height: 35px;
 }
 
+
 /*表格应用按钮*/
+
 #apply-button {
     width: 90px;
-    height: 30px;
+    height: 45px;
+    font-weight: 700;
     background-color: lavender;
     color: lightseagreen;
     border: none;
     font-size: 15px;
+    border-radius: 10px;
+    box-shadow: #e4e8e8 1px 2px 10px;
 }
 
+
 /*鼠标在上的表格应用按钮*/
+
 #apply-button:hover {
     width: 90px;
-    height: 30px;
+    font-weight: 700;
+    height: 45px;
     background-color: lightcyan;
     color: darkcyan;
     border: none;
 }
 
+
 /*
 *****表格区域：结束*****
 **/
+
+[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+    outline: 0;
+    background-color: transparent;
+    width: 200px;
+}
+
+[type="range"]::-webkit-slider-runnable-track {
+    height: 4px;
+    background: #eee;
+}
+
+[type="range" i]::-webkit-slider-container {
+    height: 25px;
+    overflow: hidden;
+}
+
+[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 30%;
+    background-color: #ffffff;
+    border: 1px solid transparent;
+    margin-top: -8px;
+    border-image: linear-gradient(#caced4, #395991) 0 fill / 8 20 8 0 / 0px 0px 0 2000px;
+}
+
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #2a2d3a;
+    background-color: #b7bfc9;
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+}
+
+
+/* 自定义勾选框选中时的样式 */
+
+input[type="checkbox"]:checked {
+    background-color: #225076;
+}
+
+
+/* 自定义勾选框选中时的勾号图标 */
+
+input[type="checkbox"]:checked::before {
+    content: "✓";
+    /* Unicode 勾号 ✓ */
+    display: block;
+    position: relative;
+    text-align: center;
+    color: #fff;
+}
+
+.colordiv {
+    width: 200px;
+}
+
+.middlediv {
+    width: 320px;
+}
+
+.lastdiv {
+    width: 300px;
+}

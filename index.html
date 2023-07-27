@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyChart</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <!--图表绘制区域-->
+    <div class="chart-canvas-block">
+        <!--这里的width和height不能放到css里面，会失真-->
+        <!--溢出canvas画布的图形似乎不会显示-->
+        <!-- 
+        为方便管理，此处改进了画布管理；
+        canvas：原始画布，包含坐标轴以及坐标轴标签
+        linecanvas: 折线图线画布，包含折线图的折线元素
+        dotcanvas：折线图点画布，包含折线图的点元素以及百分比标签
+        barcanvas：柱状图画布，包含柱状图矩形以及数量标签
+        -->
+        <canvas id="chart-canvas" width="750px" height="500px"></canvas>
+        <canvas id="bar-canvas" width="750px" height="500px"></canvas>
+        <canvas id="line-canvas" width="750px" height="500px"></canvas>
+        <canvas id="dot-canvas" width="750px" height="500px"></canvas>
+
+    </div>
+
+    <div>
+        <!--图表配置区域-->
+        <div class="color-scheme">
+            <div class="flex-widget">
+                <div>
+                    <p class="label-large">使用配色方案1:</p>
+                </div>
+                <div class="color-card-block">
+                    <canvas id="colorCard" width="80" height="15"></canvas>
+                </div>
+                <div class="color-checkbox">
+                    <input type="checkbox" id="colorcheck1" name="colorset1" onchange="watchcolorcheck1()">
+                </div>
+            </div>
+            <div class="flex-widget">
+                <div>
+                    <p class="label-large">使用配色方案2:</p>
+                </div>
+                <div class="color-card-block">
+                    <canvas id="colorCard2" width="80" height="15"></canvas>
+                </div>
+                <div class="color-checkbox">
+                    <input type="checkbox" id="colorcheck2" name="colorset2" onchange="watchcolorcheck2()">
+                </div>
+            </div>
+        </div>
+
+        <div class="bar-set">
+            <!--柱状图配置-->
+            <p class="label-large">柱状图配置</p>
+            <div class="flex-widget">
+                <div>
+                    <label class="label-small">柱状图颜色</label>
+                    <input type="color" id="colorPicker" onchange="watchColorPicker()">
+                </div>
+                <div>
+                    <label class="label-small">柱状图填充颜色方案</label>
+                    <select id="mySelect" onchange=" getSelectedValue()">
+                        <option vaule="option0">无渐变</option>
+                        <option value="option1">渐变类型1</option>
+                        <option value="option2">渐变类型2</option>
+                        <option value="option3">渐变类型3</option>
+                        <option value="option4">渐变类型4</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="label-small">柱状图填充形状方案</label>
+                    <select id="myshapeSelect" onchange=" getshapeSelectedValue()">
+                        <option vaule="option0">无填充形状</option>
+                        <option value="option1">↗斜线填充</option>
+                        <option value="option2">↖斜线填充</option>
+                        <option value="option3">⚪填充</option>
+                    </select>
+                </div>
+
+                <div>
+                    <input type="checkbox" id="barcheck" name="scales" checked onchange="watchbarcheck()">
+                    <label for="scales" class="label-middle">
+                    柱状图显示
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="brokenline-set">
+            <!--折线图配置-->
+            <p class="label-large">折线图配置</p>
+            <div class="flex-widget-column">
+
+                <div class="flex-widget">
+                    <div>
+                        <label class="label-small">曲线颜色</label>
+                        <input type="color" id="colorPicker2" onchange="watchlineColorPicker()">
+                    </div>
+
+                    <div>
+                        <label class="label-small">曲线粗细</label>
+                        <input type="range" id="slider" min="1" max="100" value="50" onchange="watchsliderchange()">
+                    </div>
+                    <div>
+                        <label class="label-small">曲线线型</label>
+                        <select id="mylineSelect" onchange=" getlineSelectedValue()">
+                            <option vaule="option0">实线</option>
+                            <option value="option1">虚线类型1</option>
+                            <option value="option2">虚线类型2</option>
+                            <option value="option3">虚线类型3</option>
+                            <option value="option4">虚线类型4</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flex-widget">
+                    <div>
+                        <label class="label-small">标记点颜色</label>
+                        <input type="color" id="colorPicker3" onchange="watchdotColorPicker()">
+                    </div>
+                    <div>
+                        <label class="label-small">标记点大小</label>
+                        <input type="range" id="slider2" min="1" max="100" value="50" onchange="watchdotsliderchange()">
+                    </div>
+
+                    <div>
+                        <label class="label-small">标记点形状</label>
+                        <select id="mydotSelect" onchange=" getdotSelectedValue()">
+                            <option vaule="option0">圆形</option>
+                            <option value="option1">三角形</option>
+                            <option value="option2">正方形</option>
+                        </select>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="linecheck" name="scales" checked onchange="watchlinecheck()">
+                        <label for="scales" class="label-middle">折线图显示</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="s-set">
+            <!--文字格式配置-->
+            <p class="label-large">文字格式配置</p>
+            <div class="flex-widget">
+                <div>
+                    <label for="s_font" class="label-small">字体:</label>
+                    <select id="s_font" onchange="watchTextFont()">
+                        <option value="Arial">Arial</option>
+                        <option value="仿宋">仿宋</option>
+                        <option value="黑体">黑体</option>
+                        <option value="宋体">宋体</option>
+                        <option value="楷体">楷体</option>
+                    </select>
+                    <label for="s_size" class="label-small">字号:</label>
+                    <input type="number" id="s_size" value="14" size="15" onchange="watchTextSize()">
+
+                    <label for="s_color" class="label-small">颜色:</label>
+                    <input type="color" id="s_color" value="#000000" onchange="watchTextColor()">
+                </div>
+            </div>
+        </div>
+
+            <div class="table-tools">
+                <p class="file-input-container">
+                    导入
+                    <input type="file" id="file-input" accept=".csv" onchange="importTable(event)">
+                </p>
+                <button id="apply-button" onclick="applyTable()">应用</button>
+            </div>
+
+            <div class="table-container">
+                <!--数据配置图表-->
+                <table id="data-table">
+                    <thead>
+                        <tr>
+                            <th>年份</th>
+                            <th>产量(万吨)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td contenteditable="true">2019</td>
+                            <td contenteditable="true">2</td>
+                        </tr>
+                        <tr>
+                            <td contenteditable="true">2020</td>
+                            <td contenteditable="true">3</td>
+                        </tr>
+                        <tr>
+                            <td contenteditable="true">2021</td>
+                            <td contenteditable="true">5</td>
+                        </tr>
+                        <tr>
+                            <td contenteditable="true">2022</td>
+                            <td contenteditable="true">4</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <!--建议将js引用置于body最后-->
+    <script src="js/app.js"></script>
+</body>
+
+</html>

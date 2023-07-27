@@ -1,0 +1,237 @@
+/*
+*****网页背景：开始*****
+**/
+body {
+    background-color: ghostwhite;
+}
+
+/*
+*****网页背景：结束*****
+**/
+
+/*
+*****元素排布区域：开始*****
+**/
+
+/*select下拉框美化：边框长度调节、边框颜色优化*/
+select {
+    background: #fafdfe;
+    height: 23px;
+    width: 120px;
+    line-height: 23px;
+    border: 1px solid #9bc0dd;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+}
+/*input控件美化：选中边框产生蓝色荧光*/
+input:focus {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
+}
+
+/*使用flex排布的元素*/
+.flex-widget {
+    display: flex;
+    gap: 20px;
+}
+
+/*纵向flex排补的元素*/
+.flex-widget-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/*
+*****元素排布区域：结束*****
+**/
+
+/*
+*****标签区域：开始*****
+**/
+/*较大的标签*/
+.label-large {
+    font-size: 16px;
+    font-family: "Microsoft YaHei", sans-serif;
+    font-weight: bolder;
+}
+
+/*中等大小标签*/
+.label-middle {
+    font-size: 14px;
+    font-family: "Microsoft YaHei", sans-serif;
+}
+/*较小的标签*/
+.label-small {
+    font-size: 12px;
+    font-family: "Microsoft YaHei", sans-serif;
+}
+
+/*
+*****标签区域：结束*****
+**/
+
+/*
+*****图表区域：开始*****
+**/
+
+/*图表绘制区域*/
+.chart-canvas-block {
+    /*居中图表绘制区域*/
+    position: absolute;
+    left: 5%;
+    top: 5%;
+    transform: translate(-0%, -0%);
+}
+
+/*原始画布canvas*/
+#chart-canvas {
+    border: 1px solid #000;
+}
+
+/*柱状图画布 折线图线画布 折线图点画布canvas*/
+#bar-canvas,
+#line-canvas,
+#dot-canvas {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+/*
+*****图表区域：结束*****
+**/
+
+/*
+*****预置颜色及图表配置区域：开始*****
+**/
+
+/*颜色预置方案区域*/
+.color-scheme {
+    position: absolute;
+    top: 10px;
+    right: 80px;
+}
+
+/*颜色卡区域*/
+.color-card-block {
+    position: relative;
+    top: 19px;
+    right: -20px;
+}
+
+/*颜色选择框*/
+.color-checkbox {
+    position: relative;
+    top: 17px;
+    right: -40px;
+}
+
+/*柱状图配置区域*/
+.bar-set {
+    position: absolute;
+    top: 550px;
+}
+
+/*折线图配置区域*/
+.brokenline-set {
+    position: absolute;
+    top: 650px;
+}
+.s-set{
+    position:absolute;
+    top:800px;
+}
+
+/*
+*****预置颜色及图表配置区域：结束*****
+**/
+
+/*
+*****表格区域：开始*****
+**/
+
+/*表格容器*/
+.table-container {
+    position: absolute;
+    left: 75%;
+    top: 20%;
+    height: 400px;
+    overflow: auto;
+}
+
+/*表格*/
+#data-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+/*单元格*/
+#data-table th,
+#data-table td {
+    width: 100px;
+    height: 20px;
+    border: 1px solid black;
+    padding: 7px;
+    text-align: center;
+}
+
+/*表格按钮区域*/
+.table-tools {
+    position: absolute;
+    left: 76%;
+    top: 90%;
+    width: 200px;
+    display: flex;
+    justify-content: space-between;
+}
+
+/*表格导入“按钮”的容器（这两个按钮仅为貌似）*/
+.file-input-container {
+    position: relative;
+    top: -16px;
+    background: lavender;
+    border: none;
+    padding: 5px 29px;
+    overflow: hidden;
+    color: lightseagreen;
+}
+
+/*表格导入“按钮”*/
+#file-input {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+/*鼠标在上的表格导入“按钮”*/
+.file-input-container:hover {
+    background: lightcyan;
+    color: darkcyan;
+}
+
+/*表格应用按钮*/
+#apply-button {
+    width: 90px;
+    height: 30px;
+    background-color: lavender;
+    color: lightseagreen;
+    border: none;
+    font-size: 15px;
+}
+
+/*鼠标在上的表格应用按钮*/
+#apply-button:hover {
+    width: 90px;
+    height: 30px;
+    background-color: lightcyan;
+    color: darkcyan;
+    border: none;
+}
+
+/*
+*****表格区域：结束*****
+**/

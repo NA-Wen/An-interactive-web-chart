@@ -13,6 +13,25 @@ body {
 *****元素排布区域：开始*****
 **/
 
+/*select下拉框美化：边框长度调节、边框颜色优化*/
+select {
+    background: #fafdfe;
+    height: 23px;
+    width: 120px;
+    line-height: 23px;
+    border: 1px solid #9bc0dd;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+}
+/*input控件美化：选中边框产生蓝色荧光*/
+input:focus {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
+}
+
 /*使用flex排布的元素*/
 .flex-widget {
     display: flex;
@@ -45,7 +64,6 @@ body {
     font-size: 14px;
     font-family: "Microsoft YaHei", sans-serif;
 }
-
 /*较小的标签*/
 .label-small {
     font-size: 12px;
@@ -122,6 +140,10 @@ body {
 .brokenline-set {
     position: absolute;
     top: 650px;
+}
+.s-set{
+    position:absolute;
+    top:800px;
 }
 
 /*

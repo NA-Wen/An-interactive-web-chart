@@ -602,6 +602,50 @@ initDynamicTable();
  * *****结束*****
  */
 
+//文字配置字体监听
+function watchTextFont(event) {
+    var x_font = chart.x_label_font.split(" ").slice(0, 2);
+    x_font[1] = s_font.value;
+    chart.x_label_font = x_font.join(" ");
+
+    var y_font = chart.y_label_font.split(" ").slice(0, 2);
+    y_font[1] = s_font.value;
+    chart.y_label_font = y_font.join(" ");
+
+    chart.clearCanvas(chart.canvas, chart.context);
+    chart.drawAxis(chart.canvas, chart.context);
+    chart.drawScale(chart.canvas, chart.context);
+    chart.drawLabel(chart.canvas, chart.context);
+
+}
+
+//文字配置字号监听
+function watchTextSize(event) {
+    var x_size = chart.x_label_font.split(" ");
+    x_size[0] = s_size.value + "px";
+    chart.x_label_font = x_size.join(" ");
+
+    var y_size = chart.y_label_font.split(" ");
+    y_size[0] = s_size.value + "px";
+    chart.y_label_font = y_size.join(" ");
+
+    chart.clearCanvas(chart.canvas, chart.context);
+    chart.drawAxis(chart.canvas, chart.context);
+    chart.drawScale(chart.canvas, chart.context);
+    chart.drawLabel(chart.canvas, chart.context);
+}
+
+//文字配置颜色监听
+function watchTextColor(event) {
+    chart.x_label_color = s_color.value;
+    chart.y_label_color = s_color.value;
+
+    chart.clearCanvas(chart.canvas, chart.context);
+    chart.drawAxis(chart.canvas, chart.context);
+    chart.drawScale(chart.canvas, chart.context);
+    chart.drawLabel(chart.canvas, chart.context);
+}
+
 //柱状图颜色变化监听
 function watchColorPicker(event) {
     //console.log(colorPicker.value);

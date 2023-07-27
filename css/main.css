@@ -10,7 +10,7 @@ body {
 **/
 
 /*
-*****元素排布区域：开始*****
+*****元素排布与控件美化区域：开始*****
 **/
 
 /*select下拉框美化：边框长度调节、边框颜色优化*/
@@ -46,7 +46,7 @@ input:focus {
 }
 
 /*
-*****元素排布区域：结束*****
+*****元素排布与控件美化区域：结束*****
 **/
 
 /*
@@ -141,9 +141,19 @@ input:focus {
     position: absolute;
     top: 650px;
 }
+
 .s-set{
     position:absolute;
     top:800px;
+}
+
+#s_size{
+    width: 50px;
+}
+
+#s-color-container{
+    position: relative;
+    top: -5px;
 }
 
 /*

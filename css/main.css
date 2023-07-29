@@ -49,6 +49,43 @@ p {
 }
 
 
+/*
+*****网页背景：结束*****
+**/
+
+
+/*
+*****元素排布与控件美化区域：开始*****
+**/
+
+
+/* 勾选框样式 */
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-label {
+    margin-left: 10px;
+    color: #fff;
+}
+
+.checkbox-input {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #141518;
+    border-radius: 3px;
+    background-color: #0e294d;
+    cursor: pointer;
+}
+
+.checkbox-input:checked {
+    background-color: #2a4bd7;
+}
+
+
 /* 下拉选项框样式 */
 
 .select-box {
@@ -89,44 +126,85 @@ select option:checked {
 }
 
 
-/* 自定义下拉图标样式，可选 */
+/*自定义滑动条的样式*/
 
-
-/* 勾选框样式 */
-
-.checkbox-container {
-    display: flex;
-    align-items: center;
-}
-
-.checkbox-label {
-    margin-left: 10px;
-    color: #fff;
-}
-
-.checkbox-input {
+[type="range"] {
+    -webkit-appearance: none;
     appearance: none;
+    margin: 0;
+    outline: 0;
+    background-color: transparent;
+    width: 200px;
+}
+
+[type="range"]::-webkit-slider-runnable-track {
+    height: 4px;
+    background: #eee;
+}
+
+[type="range" i]::-webkit-slider-container {
+    height: 25px;
+    overflow: hidden;
+}
+
+[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 30%;
+    background-color: #ffffff;
+    border: 1px solid transparent;
+    margin-top: -8px;
+    border-image: linear-gradient(#caced4, #395991) 0 fill / 8 20 8 0 / 0px 0px 0 2000px;
+}
+
+
+/*自定义勾选框的样式*/
+
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
     width: 18px;
     height: 18px;
-    border: 2px solid #141518;
+    border: 2px solid #2a2d3a;
+    background-color: #b7bfc9;
     border-radius: 3px;
-    background-color: #0e294d;
+    outline: none;
     cursor: pointer;
 }
 
-.checkbox-input:checked {
-    background-color: #2a4bd7;
+
+/* 自定义勾选框选中时的样式 */
+
+input[type="checkbox"]:checked {
+    background-color: #225076;
 }
 
 
-/*
-*****网页背景：结束*****
-**/
+/* 自定义勾选框选中时的勾号图标 */
 
+input[type="checkbox"]:checked::before {
+    content: "✓";
+    /* Unicode 勾号 ✓ */
+    display: block;
+    position: relative;
+    text-align: center;
+    color: #fff;
+}
 
-/*
-*****元素排布与控件美化区域：开始*****
-**/
+.colordiv {
+    width: 200px;
+}
+
+.middlediv {
+    width: 320px;
+}
+
+.lastdiv {
+    width: 300px;
+}
 
 
 /*select下拉框美化：边框长度调节、边框颜色优化*/
@@ -511,78 +589,3 @@ input[type="color"] {
 /*
 *****表格区域：结束*****
 **/
-
-[type="range"] {
-    -webkit-appearance: none;
-    appearance: none;
-    margin: 0;
-    outline: 0;
-    background-color: transparent;
-    width: 200px;
-}
-
-[type="range"]::-webkit-slider-runnable-track {
-    height: 4px;
-    background: #eee;
-}
-
-[type="range" i]::-webkit-slider-container {
-    height: 25px;
-    overflow: hidden;
-}
-
-[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 30%;
-    background-color: #ffffff;
-    border: 1px solid transparent;
-    margin-top: -8px;
-    border-image: linear-gradient(#caced4, #395991) 0 fill / 8 20 8 0 / 0px 0px 0 2000px;
-}
-
-input[type="checkbox"] {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    width: 18px;
-    height: 18px;
-    border: 2px solid #2a2d3a;
-    background-color: #b7bfc9;
-    border-radius: 3px;
-    outline: none;
-    cursor: pointer;
-}
-
-
-/* 自定义勾选框选中时的样式 */
-
-input[type="checkbox"]:checked {
-    background-color: #225076;
-}
-
-
-/* 自定义勾选框选中时的勾号图标 */
-
-input[type="checkbox"]:checked::before {
-    content: "✓";
-    /* Unicode 勾号 ✓ */
-    display: block;
-    position: relative;
-    text-align: center;
-    color: #fff;
-}
-
-.colordiv {
-    width: 200px;
-}
-
-.middlediv {
-    width: 320px;
-}
-
-.lastdiv {
-    width: 300px;
-}

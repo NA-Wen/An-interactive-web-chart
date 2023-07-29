@@ -513,7 +513,7 @@ input[type="color"] {
 .table-tools {
     position: absolute;
     left: 70%;
-    top: 58%;
+    top: 66%;
     width: 200px;
     display: flex;
     justify-content: space-between;

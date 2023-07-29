@@ -359,7 +359,7 @@ input:focus {
 }
 
 #tableset>p {
-    background-color: aliceblue;
+    /* background-color: aliceblue; */
     width: 130px;
     height: 25px;
     border-radius: 4px;
